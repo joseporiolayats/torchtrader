@@ -1,0 +1,43 @@
+# Project information
+site_name: Project Template
+site_url: https://joseporiolayats.github.io/#project-template
+site_description: Project template documentation
+site_author: Josep Oriol Ayats
+
+# Repository
+repo_url: https://github.com/joseporiolayats/project-template
+repo_name: joseporiolayats/project-template
+edit_uri: "" #disables edit button
+
+# Configuration
+theme:
+  name: material
+
+# Extensions
+markdown_extensions:
+  - admonition # alerts
+  - codehilite
+  - pymdownx.highlight
+
+# Plugins
+plugins:
+  - search
+  - mkdocstrings
+
+# Page tree
+nav:
+  - Home:
+      - My Project: index.md
+  - Getting started: getting_started.md
+  - Application:
+      - API: app/api.md
+      - Schemas: app/schemas.md
+  - Operations: my_project/main.md
+  - Configurations: config/config.md
+  - Reference:
+      - Data: my_project/data.md
+      - Eval: my_project/eval.md
+#      - Models: my_project/models.md
+#      - Training: my_project/train.md
+#      - Inference: my_project/predict.md
+#      - Utilities: my_project/utils.md
