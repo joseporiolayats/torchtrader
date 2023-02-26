@@ -5,7 +5,7 @@
 
 This is a personal project template using **cookiecutter** scheme.
 
-### CI/CD Tools used with pre-commit and Github Actions
+### CI/CD Tools used with pre-commit and GitHub Actions
 - pytest
 - pytest-cov
 - tox

@@ -32,12 +32,12 @@ nav:
   - Application:
       - API: app/api.md
       - Schemas: app/schemas.md
-  - Operations: my_project/main.md
+  - Operations: torchtrader/main.md
   - Configurations: config/config.md
   - Reference:
-      - Data: my_project/data.md
-      - Eval: my_project/eval.md
-#      - Models: my_project/models.md
-#      - Training: my_project/train.md
-#      - Inference: my_project/predict.md
-#      - Utilities: my_project/utils.md
+      - Data: torchtrader/data.md
+      - Eval: torchtrader/eval.md
+#      - Models: torchtrader/models.md
+#      - Training: torchtrader/train.md
+#      - Inference: torchtrader/predict.md
+#      - Utilities: torchtrader/utils.md
