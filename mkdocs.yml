@@ -1,31 +1,18 @@
 # Project information
-<<<<<<< HEAD
-site_name: Project Template
-site_url: https://joseporiolayats.github.io/#project-template
-=======
 site_name: Torch Trader
 site_url: https://joseporiolayats.github.io/#torchtrader
->>>>>>> 9786a5f (Initial commit)
-site_description: Project template documentation
+site_description: Automated trading framework using DL tools
 site_author: Josep Oriol Ayats
 
 # Repository
-<<<<<<< HEAD
-repo_url: https://github.com/joseporiolayats/project-template
-repo_name: joseporiolayats/project-template
-=======
 repo_url: https://github.com/joseporiolayats/torchtrader
 repo_name: joseporiolayats/torchtrader
->>>>>>> 9786a5f (Initial commit)
+
 edit_uri: "" #disables edit button
 
 # Configuration
 theme:
-<<<<<<< HEAD
-  name: material
-=======
   name: readthedocs
->>>>>>> 9786a5f (Initial commit)
 
 # Extensions
 markdown_extensions:
