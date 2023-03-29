@@ -1,1 +1,1 @@
-::: my_project.data
+::: torchtrader.data

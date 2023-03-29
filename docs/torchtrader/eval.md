@@ -1,1 +1,1 @@
-::: my_project.eval
+::: torchtrader.eval

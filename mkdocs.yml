@@ -28,7 +28,7 @@ plugins:
 # Page tree
 nav:
   - Home: index.md
-#      - My Project: docs/index.md
+#      - Torch Trader: docs/index.md
   - Getting started: getting_started.md
 #  - Application:
 #      - API: app/api.md
