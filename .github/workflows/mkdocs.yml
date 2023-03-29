@@ -48,7 +48,7 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
-      - run: mkdocs gh-deploy --force --clean
+#      - run: mkdocs gh-deploy --force --clean
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v1
@@ -72,5 +72,5 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
-
+#        uses: actions/deploy-pages@v2
+        run: mkdocs gh-deploy --force --clean
