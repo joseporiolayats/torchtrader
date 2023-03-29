@@ -1,4 +1,4 @@
-# Welcome to MkDocs
+# TorchTrader official documentation
 
 For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 

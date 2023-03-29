@@ -32,8 +32,8 @@ nav:
   - Getting started: getting_started.md
 #  - Application:
 #      - API: app/api.md
-#      - Schemas: docs/app/schemas.md
-#  - Operations: src/torchtrader/main.md
+#      - Schemas: app/schemas.md
+#  - Operations: torchtrader/main.md
 #  - Configurations: config/config.md
 #  - Reference:
 #      - Data: src/torchtrader/data.md
