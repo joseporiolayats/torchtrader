@@ -1,9 +1,14 @@
-# project-template
+# TorchTrader
 ![Tests](https://github.com/joseporiolayats/torchtrader/actions/workflows/tests.yml/badge.svg)
-![Docs](https://github.com/joseporiolayats/torchtrader/actions/workflows/mkdocs.yml/badge.svg?branch=gh-pages)
+![Docs](https://github.com/joseporiolayats/torchtrader/actions/workflows/mkdocs.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/joseporiolayats/torchtrader/badge.svg?branch=master)](https://coveralls.io/github/joseporiolayats/torchtrader?branch=master)
 
-This is a personal project template using **cookiecutter** scheme.
+TorchTrader is an automated framework for trading assets using bots which take decisions based on deep learning algorithms.
+
+Currently using Pytorch as the deep-learning backend.
+
+
+
 
 ### CI/CD Tools used with pre-commit and GitHub Actions
 - pytest
@@ -13,7 +18,7 @@ This is a personal project template using **cookiecutter** scheme.
 - mypy
 - nbqa
 
-### Directory structure (cookiecutter)
+### Directory structure (cookiecutter data-science)
 
 ```
 ├── LICENSE
