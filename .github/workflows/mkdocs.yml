@@ -31,7 +31,7 @@ jobs:
 
       - run: pip install markdown-include
       - run: pip install pymdown-extensions
-      - run: pip install mkdocs-rtd
+#      - run: pip install mkdocs-rtd
       - run: pip install mkdocs-rtd-dropdown
       - run: pip install mkdocstrings
       - run: mkdocs gh-deploy --force
