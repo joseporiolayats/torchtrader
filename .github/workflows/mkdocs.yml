@@ -49,11 +49,11 @@ jobs:
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
 #      - run: mkdocs gh-deploy --force --clean
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v1
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1 # This will automatically upload an artifact from the '/_site' directory
+#      - name: Setup Pages
+#        id: pages
+#        uses: actions/configure-pages@v1
+#      - name: Upload artifact
+#        uses: actions/upload-pages-artifact@v1 # This will automatically upload an artifact from the '/_site' directory
 
 
 #      - run: mkdocs gh-deploy --force
