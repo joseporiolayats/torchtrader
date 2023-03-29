@@ -48,7 +48,7 @@ jobs:
       - run: pip install mkdocs-rtd-dropdown
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
-      - run: mkdocs gh-deploy --force -d ${{ steps.pages.outputs.base_path }} # defaults output to '/_site'
+      - run: mkdocs gh-deploy --force
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v1
