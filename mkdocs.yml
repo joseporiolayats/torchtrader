@@ -12,7 +12,7 @@ edit_uri: "" #disables edit button
 
 # Configuration
 theme:
-  name: rtd-dropdown
+  name: material
 
 # Extensions
 markdown_extensions:
