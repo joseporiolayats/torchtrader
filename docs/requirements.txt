@@ -3,3 +3,4 @@ pymdown-extensions
 mkdocs-readthedocs
 mkdocs-rtd-dropdown
 mkdocstrings
+mkdocstrings-python
