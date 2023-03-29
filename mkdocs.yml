@@ -27,17 +27,17 @@ plugins:
 
 # Page tree
 nav:
-  - Home: docs/index.md
+  - Home: index.md
 #      - My Project: docs/index.md
-  - Getting started: docs/getting_started.md
-  - Application:
-      - API: docs/app/api.md
-      - Schemas: docs/app/schemas.md
-  - Operations: src/torchtrader/main.md
-  - Configurations: config/config.md
-  - Reference:
-      - Data: src/torchtrader/data.md
-      - Eval: src/torchtrader/eval.md
+  - Getting started: getting_started.md
+#  - Application:
+#      - API: app/api.md
+#      - Schemas: docs/app/schemas.md
+#  - Operations: src/torchtrader/main.md
+#  - Configurations: config/config.md
+#  - Reference:
+#      - Data: src/torchtrader/data.md
+#      - Eval: src/torchtrader/eval.md
 #      - Models: src/torchtrader/models.md
 #      - Training: src/torchtrader/train.md
 #      - Inference: src/torchtrader/predict.md
