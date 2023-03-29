@@ -34,4 +34,5 @@ jobs:
 #      - run: pip install mkdocs-rtd
       - run: pip install mkdocs-rtd-dropdown
       - run: pip install mkdocstrings
+      - run: pip install mkdocstrings-python
       - run: mkdocs gh-deploy --force
