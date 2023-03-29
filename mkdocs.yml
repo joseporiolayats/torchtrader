@@ -12,7 +12,7 @@ edit_uri: "" #disables edit button
 
 # Configuration
 theme:
-  name: readthedocs
+  name: rtd-dropdown
 
 # Extensions
 markdown_extensions:
