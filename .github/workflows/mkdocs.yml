@@ -29,18 +29,9 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-
-      - name: Install dependencies 🔧
-        working-directory: docs
-        run: make install
-
-      - name: Build and deploy to GitHub Pages 🏗️ 🚀
-        working-directory: docs
-        run: make deploy
-
-#      - run: pip install markdown-include
-#      - run: pip install pymdown-extensions
-#      - run: pip install mkdocs-readthedocs
-#      - run: pip install mkdocs-rtd-dropdown
-#      - run: pip install mkdocstrings
-#      - run: mkdocs gh-deploy --force
+      - run: pip install markdown-include
+      - run: pip install pymdown-extensions
+      - run: pip install mkdocs-readthedocs
+      - run: pip install mkdocs-rtd-dropdown
+      - run: pip install mkdocstrings
+      - run: mkdocs gh-deploy --force
