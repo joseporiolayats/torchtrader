@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up python 3
         uses: actions/setup-python@v3
@@ -48,7 +48,7 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
-      - run: mkdocs gh-deploy --force
+      - run: mkdocs gh-deploy --force --clean --verbose
 #      - name: Setup Pages
 #        id: pages
 #        uses: actions/configure-pages@v1
