@@ -1,6 +1,6 @@
 # Project information
 site_name: Torch Trader
-site_url: https://joseporiolayats.github.io/#torchtrader
+site_url: https://joseporiolayats.github.io/torchtrader
 site_description: Automated trading framework using DL tools
 site_author: Josep Oriol Ayats
 
@@ -27,18 +27,18 @@ plugins:
 
 # Page tree
 nav:
-  - Home:
-      - My Project: index.md
-  - Getting started: getting_started.md
+  - Home: docs/index.md
+#      - My Project: docs/index.md
+  - Getting started: docs/getting_started.md
   - Application:
-      - API: app/api.md
-      - Schemas: app/schemas.md
-  - Operations: torchtrader/main.md
+      - API: docs/app/api.md
+      - Schemas: docs/app/schemas.md
+  - Operations: src/torchtrader/main.md
   - Configurations: config/config.md
   - Reference:
-      - Data: torchtrader/data.md
-      - Eval: torchtrader/eval.md
-#      - Models: torchtrader/models.md
-#      - Training: torchtrader/train.md
-#      - Inference: torchtrader/predict.md
-#      - Utilities: torchtrader/utils.md
+      - Data: src/torchtrader/data.md
+      - Eval: src/torchtrader/eval.md
+#      - Models: src/torchtrader/models.md
+#      - Training: src/torchtrader/train.md
+#      - Inference: src/torchtrader/predict.md
+#      - Utilities: src/torchtrader/utils.md
