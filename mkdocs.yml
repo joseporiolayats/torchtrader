@@ -30,11 +30,11 @@ nav:
   - Home: index.md
 #      - Torch Trader: docs/index.md
   - Getting started: getting_started.md
-#  - Application:
-#      - API: app/api.md
-#      - Schemas: app/schemas.md
-#  - Operations: torchtrader/main.md
-#  - Configurations: config/config.md
+  - Application:
+      - API: app/api.md
+      - Schemas: app/schemas.md
+  - Operations: torchtrader/main.md
+  - Configurations: config/config.md
 #  - Reference:
 #      - Data: src/torchtrader/data.md
 #      - Eval: src/torchtrader/eval.md
