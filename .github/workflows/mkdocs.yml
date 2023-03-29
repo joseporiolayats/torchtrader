@@ -42,13 +42,13 @@ jobs:
 #          restore-keys: |
 #            ${{ runner.os }}-pip-
 #            ${{ runner.os }}-
-      - name: Prerequisite installation
-        run: pip install markdown-include
-        run: pip install pymdown-extensions
-        run: pip install mkdocs-rtd-dropdown
-        run: pip install mkdocstrings
-        run: pip install mkdocstrings-python
-        run: mkdocs gh-deploy --force #--baseurl ${{ steps.pages.outputs.base_path }} # defaults output to '/_site'
+#      - name: Prerequisite installation
+      - run: pip install markdown-include
+      - run: pip install pymdown-extensions
+      - run: pip install mkdocs-rtd-dropdown
+      - run: pip install mkdocstrings
+      - run: pip install mkdocstrings-python
+      - run: mkdocs gh-deploy --force #--baseurl ${{ steps.pages.outputs.base_path }} # defaults output to '/_site'
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v1
