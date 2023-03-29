@@ -58,7 +58,7 @@ jobs:
 
       - run: mkdocs gh-deploy --force
 
-   Deployment job
+#   Deployment job
   deploy:
     name: Deploy
     environment:
