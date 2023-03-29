@@ -3,15 +3,15 @@ on:
   push:
     branches:
       - master
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+#
+#  # Allows you to run this workflow manually from the Actions tab
+#  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+#permissions:
+#  contents: read
+#  pages: write
+#  id-token: write
 
 
 # Allow one concurrent deployment
@@ -27,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up python 3
         uses: actions/setup-python@v3
@@ -48,7 +48,7 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install mkdocstrings
       - run: pip install mkdocstrings-python
-      - run: mkdocs gh-deploy --force --clean --verbose
+      - run: mkdocs gh-deploy --force --clean
 #      - name: Setup Pages
 #        id: pages
 #        uses: actions/configure-pages@v1
