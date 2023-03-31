@@ -106,3 +106,4 @@ airflow/airflow.db
 
 # Jetbrains
 .idea/
+*.iml
