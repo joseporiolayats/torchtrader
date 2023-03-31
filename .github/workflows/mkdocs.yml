@@ -3,16 +3,6 @@ on:
   push:
     branches:
       - master
-#
-#  # Allows you to run this workflow manually from the Actions tab
-#  workflow_dispatch:
-#
-## Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-##permissions:
-#  contents: read
-#  pages: write
-#  id-token: write
-
 
 # Allow one concurrent deployment
 concurrency:
@@ -34,9 +24,10 @@ jobs:
         with:
           python-version: 3.11
 
-      - run: pip install markdown-include
-      - run: pip install pymdown-extensions
-      - run: pip install mkdocs-material
-      - run: pip install mkdocstrings
-      - run: pip install mkdocstrings-python
-      - run: mkdocs gh-deploy --force --clean
+      # Install dependencies
+      - name: Install dependencies
+      - run: pip install markdown-include pymdown-extensions mkdocs-material mkdocstrings mkdocstrings-python
+
+      # Deploy
+      - name: Deploy
+        run: mkdocs gh-deploy --force --clean
