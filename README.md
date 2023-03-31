@@ -3,14 +3,42 @@
 ![Docs](https://github.com/joseporiolayats/torchtrader/actions/workflows/mkdocs.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/joseporiolayats/torchtrader/badge.svg?branch=master)](https://coveralls.io/github/joseporiolayats/torchtrader?branch=master)
 
-TorchTrader is an automated framework for trading assets using bots which take decisions based on deep learning algorithms.
-
-Currently using Pytorch as the deep-learning backend.
-
+# UNDER HEAVY DEVELOPMENT. 
+# REFERENCE PURPOSES ONLY.
 
 
+**TorchTrader** is an automated framework for trading assets using bots which take decisions based on deep learning algorithms.
 
-### CI/CD Tools used with pre-commit and GitHub Actions
+Currently using Pytorch 2 as the deep-learning backend.
+
+## What's the aim?
+TorchTrader is a trading framework which includes actual machine-learning algorithms for automated decision making with scripted strategies and runnable bots for each one
+
+## Development
+At the first stage, some strategies will have the hyperparameters tuned automagically by AI. This training phase takes time and compute power, so be aware to use GPU or host it in a cloud GPU service.
+
+## Work-modes
+TorchTrader can operate in many ways, separate or simultaneous.
+- Watcher: Watch and plot many technical analysis indicators.
+- Quant: Discover strategies and tune them into profitable actions.
+- High Frequency Trading (HFT): Operate in all the markets desired with the selected strategies. 
+
+The strategies
+
+### Computation
+It will be focused on using CUDA as strongly as possible, but there will be support also for CPU training and inference of new models
+
+### Environment
+I'll be using Poetry for package management and woking with a venv without conda.
+
+### Deployment
+It is intended to be Docker ready for fast deployment with optimized docker-compose and docker image.
+
+### Documentation
+Full project documentation is here https://joseporiolayats.github.io/torchtrader
+
+
+### Testing Tools used with pre-commit and GitHub Actions
 - pytest
 - pytest-cov
 - tox
