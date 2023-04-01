@@ -33,7 +33,7 @@ nav:
   - Application:
       - API: app/api.md
       - Schemas: app/schemas.md
-  - Operations: torchtrader/main.md
+#  - Operations: torchtrader/main.md
 #  - Configurations: config/config.md
 #  - Reference:
       - Data: torchtrader/data.md
