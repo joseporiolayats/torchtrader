@@ -29,6 +29,7 @@ plugins:
       default_handler: python
       handlers:
         python:
+          paths: [src]
           options:
             show_source: false
 
@@ -48,3 +49,6 @@ nav:
       - Training: torchtrader/training.md
       - Inference: torchtrader/prediction.md
       - Utilities: torchtrader/utils.md
+
+# to navigate with `/site` content correctly
+use_directory_urls: false

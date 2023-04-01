@@ -11,23 +11,37 @@ concurrency:
 
 jobs:
   # Build job
-  build-deploy:
+  deploy-documentation:
     name: Build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Set up python 3
-        uses: actions/setup-python@v3
         with:
-          python-version: 3.11
+          ref: ${{ github.head_ref }}
+      # install poetry
+      - name: Install poetry
+        run: pipx install poetry
+      # set-up python with cache
+      - name: Set up python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
 
       # Install dependencies
       - name: Install dependencies
-        run: pip install markdown-include pymdown-extensions mkdocs-material mkdocstrings mkdocstrings-python
+#        run: pip install markdown-include pymdown-extensions mkdocs-material mkdocstrings mkdocstrings-python
+        run: poetry install --only docs
 
-      # Deploy
-      - name: Deploy
-        run: mkdocs gh-deploy --force --clean
+
+#      # Deploy
+#      - name: Deploy
+#        run: mkdocs gh-deploy --force --clean
+
+      # build & deploy docs
+      - name: Build docs
+        run: |
+          set -o pipefail
+          poetry run make docs-deploy
