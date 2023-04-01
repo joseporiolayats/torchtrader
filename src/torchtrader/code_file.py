@@ -21,14 +21,30 @@ slap_dislike_transitions = {
 
 
 def slap_like(s: LikeState) -> LikeState:
+    """
+
+    :param s:
+    :return:
+    """
     return slap_like_transitions[s]
 
 
 def slap_dislike(s: LikeState) -> LikeState:
+    """
+
+    :param s:
+    :return:
+    """
     return slap_dislike_transitions[s]
 
 
 def slap_many(s: LikeState, slaps: str) -> LikeState:
+    """
+
+    :param s:
+    :param slaps:
+    :return:
+    """
     for c in slaps:
         c = c.lower()
         if c == 'l':

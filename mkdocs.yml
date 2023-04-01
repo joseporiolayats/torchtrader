@@ -34,10 +34,10 @@ nav:
       - API: app/api.md
       - Schemas: app/schemas.md
   - Operations: torchtrader/main.md
-  - Configurations: config/config.md
+#  - Configurations: config/config.md
 #  - Reference:
-#      - Data: src/torchtrader/data.md
-#      - Eval: src/torchtrader/eval.md
+      - Data: torchtrader/data.md
+      - Eval: torchtrader/eval.md
 #      - Models: src/torchtrader/models.md
 #      - Training: src/torchtrader/train.md
 #      - Inference: src/torchtrader/predict.md
