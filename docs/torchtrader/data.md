@@ -1,1 +1,1 @@
-::: src.torchtrader.data.example01.add_numbers
+::: torchtrader.data.example01.add_numbers
