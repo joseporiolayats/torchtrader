@@ -37,6 +37,7 @@ trio = "^0.22.0"
 mkdocs = "^1.4.1"
 mkdocs-material = "^8.5.6"
 mkdocstrings = "*"
+mkdocstrings-python = "^0.8.3"
 
 
 [tool.poetry.group.semver.dependencies]
