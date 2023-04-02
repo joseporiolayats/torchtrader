@@ -1,14 +1,14 @@
 """
 Random functions to test
 """
-import sys
+
 from typing import Dict
 
 import pytest
 
 
 @pytest.fixture
-def capture_stdout(monkeypatch) -> Dict:
+def capture_stdout(monkeypatch: Dict) -> Dict:
     """
     Yes
     :param monkeypatch:
@@ -16,15 +16,16 @@ def capture_stdout(monkeypatch) -> Dict:
     """
     buffer = {"stdout": "", "write_calls": 0}
 
-    def fake_write(s) -> None:
+    def fake_write(s: str) -> None:
         """
         Yes
         :param s:
         """
         buffer["stdout"] += s
         buffer["write_calls"] += 1
+        print("Here")
 
-    monkeypatch.setattr(sys.stdout, "write", fake_write)
+    # monkeypatch.setattr(sys.stdout, "write", fake_write)
     return buffer
 
 

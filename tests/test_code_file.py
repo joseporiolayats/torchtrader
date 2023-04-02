@@ -1,6 +1,7 @@
 """
 Hey
 """
+from typing import Dict
 
 import pytest
 
@@ -53,7 +54,7 @@ def test_divide_by_zero() -> None:
 
 
 @pytest.mark.xfail
-def test_db_slap(db_conn) -> None:
+def test_db_slap(db_conn: Dict) -> None:
     """
     Slap
     :param db_conn:
@@ -63,7 +64,7 @@ def test_db_slap(db_conn) -> None:
     # assert True
 
 
-def test_print(capture_stdout):
+def test_print(capture_stdout: Dict) -> None:
     print("hello")
     assert capture_stdout["stdout"] == "hello\n"
 
