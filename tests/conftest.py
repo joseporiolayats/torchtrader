@@ -1,9 +1,9 @@
 """
 Random functions to test
 """
-
 import sys
 from typing import Dict
+
 import pytest
 
 
