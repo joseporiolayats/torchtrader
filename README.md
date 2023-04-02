@@ -3,7 +3,7 @@
 ![Docs](https://github.com/joseporiolayats/torchtrader/actions/workflows/mkdocs.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/joseporiolayats/torchtrader/badge.svg?branch=master)](https://coveralls.io/github/joseporiolayats/torchtrader?branch=master)
 
-# UNDER HEAVY DEVELOPMENT. 
+# UNDER HEAVY DEVELOPMENT.
 # REFERENCE PURPOSES ONLY.
 
 
@@ -21,7 +21,7 @@ At the first stage, some strategies will have the hyperparameters tuned automagi
 TorchTrader can operate in many ways, separate or simultaneous.
 - Watcher: Watch and plot many technical analysis indicators.
 - Quant: Discover strategies and tune them into profitable actions.
-- High Frequency Trading (HFT): Operate in all the markets desired with the selected strategies. 
+- High Frequency Trading (HFT): Operate in all the markets desired with the selected strategies.
 
 The strategies
 
@@ -94,3 +94,5 @@ Full project documentation is here https://joseporiolayats.github.io/torchtrader
 │
 └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 ```
+
+###### This project structure and CI/CD workflow is heavily inspired from a template I adapted from [Johannes Schmidt's](https://github.com/johschmidt42/python-project-johannes/tree/main)
