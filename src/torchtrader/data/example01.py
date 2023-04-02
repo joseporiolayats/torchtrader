@@ -1,4 +1,9 @@
-def add_numbers(x, y):
+"""
+Trololooo
+"""
+
+
+def add_numbers(x: int, y: int) -> int:
     """
     This function adds two numbers together.
 

@@ -10,15 +10,15 @@ import pytest
 @pytest.fixture
 def capture_stdout(monkeypatch) -> Dict:
     """
-
+    Yes
     :param monkeypatch:
     :return:
     """
     buffer = {"stdout": "", "write_calls": 0}
 
-    def fake_write(s):
+    def fake_write(s) -> None:
         """
-
+        Yes
         :param s:
         """
         buffer["stdout"] += s
@@ -34,9 +34,10 @@ def db_conn() -> None:
     Random DB connection
     :return:
     """
-    # noinspection PyCompatibility
-    db = ...
-    # noinspection PyCompatibility
-    url = ...
-    with db.connect(url) as conn:  # connection will stop after tests
-        yield conn
+    # # noinspection PyCompatibility
+    # db = ...
+    # # noinspection PyCompatibility
+    # url = ...
+    # with db.connect(url) as conn:  # connection will stop after tests
+    #     yield conn
+    print("Nothing")

@@ -1,3 +1,7 @@
+"""
+Hey
+"""
+
 import pytest
 
 # from torchtrader.app import app
@@ -35,8 +39,12 @@ import pytest
 
 
 @pytest.mark.xfail
-def test_divide_by_zero():
-    assert 1 / 0 == 1
+def test_divide_by_zero() -> None:
+    """
+    Divide
+    :return:
+    """
+    assert 1 == 0
 
 
 # def test_invalid_slap():
@@ -45,9 +53,14 @@ def test_divide_by_zero():
 
 
 @pytest.mark.xfail
-def test_db_slap(db_conn):
-    db_conn.read_slaps()
-    assert ...
+def test_db_slap(db_conn) -> None:
+    """
+    Slap
+    :param db_conn:
+    :return:
+    """
+    print("Nothing")
+    # assert True
 
 
 def test_print(capture_stdout):
