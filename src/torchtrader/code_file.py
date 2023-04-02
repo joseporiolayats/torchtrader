@@ -1,7 +1,14 @@
+"""
+Some random code
+"""
 import enum
 
 
 class LikeState(enum.Enum):
+    """
+    Random class
+    """
+
     empty = enum.auto()
     liked = enum.auto()
     disliked = enum.auto()
@@ -47,10 +54,10 @@ def slap_many(s: LikeState, slaps: str) -> LikeState:
     """
     for c in slaps:
         c = c.lower()
-        if c == 'l':
+        if c == "l":
             s = slap_like(s)
-        elif c == 'd':
+        elif c == "d":
             s = slap_dislike(s)
         else:
-            raise ValueError('invalid slap')
+            raise ValueError("invalid slap")
     return s
