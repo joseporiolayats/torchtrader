@@ -21,8 +21,8 @@ def capture_stdout(monkeypatch: Dict) -> Dict:
         Yes
         :param s:
         """
-        buffer["stdout"] += s
-        buffer["write_calls"] += 1
+        # buffer["stdout"] += s
+        # buffer["write_calls"] += 1
         print("Here")
 
     # monkeypatch.setattr(sys.stdout, "write", fake_write)
