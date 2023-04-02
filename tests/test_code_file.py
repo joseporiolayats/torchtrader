@@ -1,5 +1,5 @@
 import pytest
-from my_project.code_file import LikeState, slap_many
+from torchtrader.app import app
 
 
 def test_empty_slap():

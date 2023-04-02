@@ -1,0 +1,26 @@
+---
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      # check-out repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      # build
+      - name: Build docker image
+        run: |
+          set -o pipefail
+          make build
