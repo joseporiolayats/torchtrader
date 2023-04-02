@@ -1,4 +1,4 @@
-def sub_numbers(x, y):
+def sub_numbers(x: int, y: int) -> int:
     """
     This function substracts two numbers.
 

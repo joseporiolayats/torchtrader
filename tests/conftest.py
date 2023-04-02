@@ -1,10 +1,14 @@
-import sys
+"""
+Random functions to test
+"""
 
+import sys
+from typing import Dict
 import pytest
 
 
 @pytest.fixture
-def capture_stdout(monkeypatch):
+def capture_stdout(monkeypatch) -> Dict:
     """
 
     :param monkeypatch:
@@ -25,8 +29,11 @@ def capture_stdout(monkeypatch):
 
 
 @pytest.fixture(scope="session")
-def db_conn():
-    """ """
+def db_conn() -> None:
+    """
+    Random DB connection
+    :return:
+    """
     # noinspection PyCompatibility
     db = ...
     # noinspection PyCompatibility

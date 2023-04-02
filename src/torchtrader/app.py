@@ -1,5 +1,5 @@
 # aqui es on el codi s'engega
-def app():
+def app() -> None:
     """
     Placeholder for doing something
     """
