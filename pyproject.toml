@@ -100,7 +100,7 @@ line-length = 79
 
 [mypy]
 ignore_missing_imports = true
-#allow-subclassing-any = true
+allow-subclassing-any = true
 
 [build-system]
 requires = ["poetry-core"]
