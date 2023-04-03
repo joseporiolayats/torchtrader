@@ -62,7 +62,7 @@ repos:
       hooks:
         -   id: mypy
             files: ^src/
-            args: []
+            args: [disallow-any-unimported]
 
   -   repo: https://github.com/nbQA-dev/nbQA
       rev: 1.6.4
