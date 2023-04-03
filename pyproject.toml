@@ -99,7 +99,7 @@ hvcs = "github" # gitlab is also supported (hvcs = host version control system)
 line-length = 79
 
 [mypy]
-#ignore_missing_imports = true
+ignore_missing_imports = true
 allow-subclassing-any = true
 
 [build-system]
