@@ -24,7 +24,6 @@ markdown_extensions:
 plugins:
   - search
   - mkdocstrings:
-#      enabled: !ENV [ENABLE_MKDOCSTRINGS, true]
       enabled: true
       custom_templates: templates
       default_handler: python
@@ -44,6 +43,7 @@ nav:
   - Operations: torchtrader/operations.md
   - Configurations: config/config.md
   - Technical Analysis:
+      - Moving Average: ta/ma.md
       - Ichimoku Cloud: ta/ichimoku.md
   - Reference:
       - Data: torchtrader/data.md
