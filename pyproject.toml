@@ -51,7 +51,7 @@ profile = "black"
 
 [tool.mypy]
 # 3rd party import
-ignore_missing_imports = true
+#ignore_missing_imports = true
 # dynamic typing
 disallow_any_unimported = true
 disallow_any_expr = false
@@ -97,10 +97,6 @@ hvcs = "github" # gitlab is also supported (hvcs = host version control system)
 
 [tool.black]
 line-length = 79
-
-[mypy]
-ignore_missing_imports = true
-allow-subclassing-any = true
 
 [build-system]
 requires = ["poetry-core"]
