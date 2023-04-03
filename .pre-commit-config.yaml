@@ -5,15 +5,10 @@ repos:
       rev: 1.4.0
       hooks:
         -   id: poetry-check
-        -   id: poetry-lock
+#        -   id: poetry-lock
 #        -   id: poetry-export
 #            args: ["-f", "requirements.txt", "-o", "requirements.txt"]
 
-  -   repo: https://github.com/psf/black
-      rev: 23.3.0
-      hooks:
-        -   id: black
-            args: [--safe]
 
   -   repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v4.4.0
@@ -70,3 +65,10 @@ repos:
       hooks:
         -   id: nbqa-black
         -   id: nbqa-pyupgrade
+
+  -   repo: https://github.com/psf/black
+      rev: 23.3.0
+      hooks:
+        -   id: black
+            args: [--safe]
+            language_version: python3.10
