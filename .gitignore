@@ -107,3 +107,6 @@ airflow/airflow.db
 # Jetbrains
 .idea/
 *.iml
+
+## Notebook scratches
+notebooks/00-scratches.ipynb
