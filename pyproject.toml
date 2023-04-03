@@ -94,6 +94,10 @@ tag_commit = true
 upload_to_pypi = false
 upload_to_release = false
 hvcs = "github" # gitlab is also supported (hvcs = host version control system)
+
+[tool.black]
+line-length = 79
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
