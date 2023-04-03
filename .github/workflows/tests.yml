@@ -69,6 +69,9 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'poetry'
+      # set-up pytorch with cache
+      - name: Setup Pytorch with pip
+        run: pip3 install torch --index-url https://download.pytorch.org/whl/cu118
       # install requirements (including dev dependencies)
       - name: Install requirements
         run: poetry install --with test
