@@ -1,5 +1,5 @@
 """
-Ichimoku Cloud implemented in PyTorch with JIT compilation
+Ichimoku Cloud implemented in PyTorch with "Just In Time" (JIT) compilation
 """
 import torch
 
