@@ -98,6 +98,9 @@ hvcs = "github" # gitlab is also supported (hvcs = host version control system)
 [tool.black]
 line-length = 79
 
+[mypy-torch]
+ignore_missing_imports = 1
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
