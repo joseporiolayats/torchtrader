@@ -53,7 +53,7 @@ profile = "black"
 # 3rd party import
 #ignore_missing_imports = true
 # dynamic typing
-disallow_any_unimported = true
+disallow_any_unimported = false #
 disallow_any_expr = false
 disallow_any_decorated = false
 disallow_any_explicit = true
