@@ -109,4 +109,4 @@ airflow/airflow.db
 *.iml
 
 ## Notebook scratches
-notebooks/00-scratches.ipynb
+notebooks/*
