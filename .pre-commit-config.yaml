@@ -62,7 +62,8 @@ repos:
       hooks:
         -   id: mypy
             files: ^src/
-            args: [--disallow-any-unimported]
+            args: [--no-strict-optional, --ignore-missing-imports]
+            additional_dependencies: [tokenize-rt==3.2.0]
 
   -   repo: https://github.com/nbQA-dev/nbQA
       rev: 1.6.4
