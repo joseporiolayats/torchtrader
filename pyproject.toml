@@ -98,7 +98,7 @@ hvcs = "github" # gitlab is also supported (hvcs = host version control system)
 [tool.black]
 line-length = 79
 
-[mypy-torch]
+[mypy]
 #ignore_missing_imports = 1
 allow-subclassing-any = 1
 
