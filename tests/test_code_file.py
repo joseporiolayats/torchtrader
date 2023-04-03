@@ -1,9 +1,9 @@
 """
 Hey
 """
-import pytest
 from typing import Dict
 
+import pytest
 
 # from torchtrader.app import app
 
