@@ -2,9 +2,8 @@
 Random functions to test
 """
 
-from typing import Dict
-
 import pytest
+from typing import Dict
 
 
 @pytest.fixture
