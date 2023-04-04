@@ -51,7 +51,6 @@ python-semantic-release = "^7.32.2"
 profile = "black"
 
 [tool.mypy]
-plugins = "numpy.typing.mypy_plugin"
 # 3rd party import
 ignore_missing_imports = true
 # dynamic typing
