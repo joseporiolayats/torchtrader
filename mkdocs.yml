@@ -19,7 +19,6 @@ markdown_extensions:
   - admonition # alerts
   - codehilite
   - pymdownx.highlight
-  - mermaid2
 
 # Plugins
 plugins:
