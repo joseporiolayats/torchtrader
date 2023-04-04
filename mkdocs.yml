@@ -23,7 +23,9 @@ markdown_extensions:
 # Plugins
 plugins:
   - search
-  - mermaid2
+  - mermaid2:
+      arguments:
+        securityLevel: 'loose'
   - autorefs
   - mkdocstrings:
       enabled: true
