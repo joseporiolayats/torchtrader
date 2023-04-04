@@ -43,7 +43,8 @@ nav:
   - Operations: torchtrader/operations.md
   - Configurations: config/config.md
   - Technical Analysis:
-      - Moving Average: ta/ma.md
+      - MA - Moving Average: ta/ma.md
+      - RSI - Relative Strength Index: ta/rsi.md
       - Ichimoku Cloud: ta/ichimoku.md
   - Reference:
       - Data: torchtrader/data.md
