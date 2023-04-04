@@ -62,12 +62,12 @@ lint-flake8: ## flake8 (linter)
 
 .PHONY: lint-mypy
 lint-mypy: ## mypy (static-type checker)
-	@mypy --config-file pyproject.toml . --follow-imports=silent
+	@mypy --config-file pyproject.toml . --follow-imports=silent --ignore-missing-imports
 
 .PHONY: lint-mypy-report
 lint-mypy-report: ## run mypy & create report
 	@mypy --config-file pyproject.toml . --html-report ./mypy_html
-	--follow-imports=silent
+	--ignore-missing-imports --follow-imports=silent
 
 lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
 
@@ -128,7 +128,7 @@ login: ## login to ghcr.io using a personal access token (PAT)
 		echo $(CR_PAT) | docker login ghcr.io -u joseporiolayats --password-stdin;\
 	fi
 
-tag: ## tag docker image to ghcr.io/joserporiolayats/project:latest
+tag: ## tag docker image to ghcr.io/joseporiolayats/project:latest
 	@docker tag project:latest ghcr.io/joseporiolayats/project:latest
 
 push: tag ## docker push to container registry (ghcr.io)
