@@ -66,8 +66,7 @@ lint-mypy: ## mypy (static-type checker)
 
 .PHONY: lint-mypy-report
 lint-mypy-report: ## run mypy & create report
-	@mypy --config-file pyproject.toml . --html-report ./mypy_html
-	--ignore-missing-imports --follow-imports=silent
+	@mypy --config-file pyproject.toml . --html-report ./mypy_html 	--ignore-missing-imports --follow-imports=silent
 
 lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
 
