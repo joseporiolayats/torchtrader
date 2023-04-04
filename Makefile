@@ -62,11 +62,12 @@ lint-flake8: ## flake8 (linter)
 
 .PHONY: lint-mypy
 lint-mypy: ## mypy (static-type checker)
-	@mypy --config-file pyproject.toml . --follow-imports silent
+	@mypy --config-file pyproject.toml . --follow-imports=silent
 
 .PHONY: lint-mypy-report
 lint-mypy-report: ## run mypy & create report
-	@mypy --config-file pyproject.toml . --html-report ./mypy_html --follow-imports silent
+	@mypy --config-file pyproject.toml . --html-report ./mypy_html
+	--follow-imports=silent
 
 lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
 
