@@ -37,6 +37,14 @@ plugins:
 nav:
   - Home: index.md
   - Getting started: getting_started.md
+  - The Project:
+      - Scope: project/scope.md
+      - Requirements: project/requirements.md
+      - Use Case: project/use_case.md
+      - Architecture: project/architecture.md
+      - Testing: project/testing.md
+      - Deployment: project/deployment.md
+      - User Documentation: project/user_docs.md
   - Application:
       - API: app/api.md
       - Schemas: app/schemas.md
