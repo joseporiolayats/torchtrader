@@ -4,6 +4,11 @@ on:
   - push
 ##  - pull_request
 #
+# Allow one concurrent deployment
+concurrency:
+  group: "test"
+  cancel-in-progress: true
+
 jobs:
 #  test:
 #    runs-on: ${{ matrix.os }}
