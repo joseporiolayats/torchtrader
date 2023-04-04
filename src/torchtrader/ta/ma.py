@@ -10,8 +10,8 @@ class MovingAverage(torch.nn.Module):
     Computes the moving average for a sequence of values.
 
     Args:
-        window_size (int): The number of values to use in the
-        moving average calculation.
+        window_size (int): The number of values to use in the moving average
+            calculation.
     """
 
     def __init__(self, window_size: int = 3):
@@ -19,8 +19,8 @@ class MovingAverage(torch.nn.Module):
         Initialize a new instance of MovingAverage.
 
         Args:
-            window_size: The number of values to use in the
-            moving average calculation.
+            window_size: The number of values to use in the moving average
+                calculation.
         """
         super().__init__()
         self.window_size = window_size

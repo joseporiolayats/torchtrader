@@ -51,11 +51,11 @@ class RSI(torch.nn.Module):
 
         Args:
             x (torch.Tensor): A batch of time series data in the shape
-            (batch_size, sequence_length, num_features).
+                (batch_size, sequence_length, num_features).
 
         Returns:
             torch.Tensor: The RSI values for each time step in the input data,
-            in the shape (batch_size, sequence_length).
+                in the shape (batch_size, sequence_length).
         """
         # Extract the closing prices from the input data
         close = self.get_close(x)
@@ -82,11 +82,11 @@ class RSI(torch.nn.Module):
 
         Args:
             x (torch.Tensor): A batch of time series data in the shape
-            (batch_size, sequence_length, num_features).
+                (batch_size, sequence_length, num_features).
 
         Returns:
             torch.Tensor: The closing prices for each time step in the input
-            data, in the shape (batch_size, sequence_length).
+                data, in the shape (batch_size, sequence_length).
         """
         # Extract the closing prices from the input data
         return x[:, -1]
@@ -98,11 +98,11 @@ class RSI(torch.nn.Module):
 
         Args:
             close (torch.Tensor): The closing prices for each time step in a
-            batch of time series data.
+                batch of time series data.
 
         Returns:
             torch.Tensor: The price changes between consecutive time steps, in
-            the shape (batch_size, sequence_length).
+                the shape (batch_size, sequence_length).
         """
         # Compute the difference between consecutive closing prices
         return close - torch.roll(close, 1, dims=1)
@@ -114,11 +114,11 @@ class RSI(torch.nn.Module):
 
         Args:
             delta (torch.Tensor): The price changes between consecutive time
-            steps, in the shape (batch_size, sequence_length).
+                steps, in the shape (batch_size, sequence_length).
 
         Returns:
             Tuple[torch.Tensor, torch.Tensor]: The gains and losses for each
-            time step, in the shape (batch_size, sequence_length).
+                time step, in the shape (batch_size, sequence_length).
         """
         # Separate gains and losses from price changes
         gain = torch.where(delta > 0, delta, torch.zeros_like(delta))
@@ -133,14 +133,14 @@ class RSI(torch.nn.Module):
 
         Args:
             gain (torch.Tensor): The cumulative sum of gains for each time
-            step, in the shape (batch_size, sequence_length).
+                step, in the shape (batch_size, sequence_length).
             loss (torch.Tensor): The cumulative sum of losses for each time
-             step, in the shape (batch_size, sequence_length).
+                step, in the shape (batch_size, sequence_length).
 
         Returns:
             Tuple[torch.Tensor, torch.Tensor]: The average gains and losses
-            over the RSI window, each in the shape
-            (batch_size, sequence_length).
+                over the RSI window, each in the shape
+                (batch_size, sequence_length).
         """
         # Compute the average gains and losses over the RSI window
         gain_avg = avg_pool1d(gain, kernel_size=self.window_size)
@@ -155,13 +155,13 @@ class RSI(torch.nn.Module):
 
         Args:
             gain_avg (torch.Tensor): The average gains over the RSI window,
-            in the shape (batch_size, sequence_length).
-            loss_avg (torch.Tensor): The average losses over the RSI window,
-            in the shape (batch_size, sequence_length).
+                in the shape (batch_size, sequence_length).
+                loss_avg (torch.Tensor): The average losses over the RSI
+                window, in the shape (batch_size, sequence_length).
 
         Returns:
             torch.Tensor: The relative strength values for each time step,
-            in the shape (batch_size, sequence_length).
+                in the shape (batch_size, sequence_length).
         """
 
         return torch.div(
@@ -176,11 +176,11 @@ class RSI(torch.nn.Module):
 
         Args:
             rs (torch.Tensor): The relative strength values for each time step,
-             in the shape (batch_size, sequence_length).
+                in the shape (batch_size, sequence_length).
 
         Returns:
             torch.Tensor: The RSI values for each time step, in the shape
-            (batch_size, sequence_length).
+                (batch_size, sequence_length).
         """
         return 100 - 100 / (1 + rs)
 
