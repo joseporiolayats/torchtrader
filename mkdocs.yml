@@ -23,6 +23,8 @@ markdown_extensions:
 # Plugins
 plugins:
   - search
+  - mermaid2
+  - autorefs
   - mkdocstrings:
       enabled: true
       custom_templates: templates
@@ -37,14 +39,17 @@ plugins:
 nav:
   - Home: index.md
   - Getting started: getting_started.md
-  - The Project:
-      - Scope: project/scope.md
+  - Definition: definition.md
+  - Project Guidelines:
+      - Proposal: project/proposal.md
       - Requirements: project/requirements.md
-      - Use Case: project/use_case.md
       - Architecture: project/architecture.md
+      - Detailed Design: project/design_detailed.md
+      - Project Plan: project/plan.md
       - Testing: project/testing.md
-      - Deployment: project/deployment.md
       - User Documentation: project/user_docs.md
+      - Developer Documentation: project/dev_docs.md
+      - Maintenance and Support: project/support.md
   - Application:
       - API: app/api.md
       - Schemas: app/schemas.md
@@ -63,4 +68,8 @@ nav:
       - Utilities: torchtrader/utils.md
 
 # to navigate with `/site` content correctly
-use_directory_urls: false
+use_directory_urls: true
+
+# Live reload and keep track of directories
+watch:
+  - .
