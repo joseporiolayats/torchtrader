@@ -13,19 +13,43 @@ edit_uri: "" #disables edit button
 # Configuration
 theme:
   name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: light-blue
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: deep orange
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+  pymdownx.superfences:
+    # make exceptions to highlighting of code:
+    custom_fences:
+      - name: mermaid
+        class: mermaid
+#        format: !!python/name:mermaid2.fence_mermaid
+        format: mermaid2.fence_mermaid
 
 # Extensions
 markdown_extensions:
   - admonition # alerts
-  - codehilite
-  - pymdownx.highlight
 
 # Plugins
 plugins:
   - search
   - mermaid2:
       arguments:
-        securityLevel: 'loose'
+        # test if its __palette_1 (dark) or __palette_2 (light)
+        # for mkdocs-material >=8.0.0
+        theme: |
+          ^(JSON.parse(__md_get("__palette").index == 1)) ? 'dark' : 'light'
   - autorefs
   - mkdocstrings:
       enabled: true
@@ -36,7 +60,8 @@ plugins:
           paths: [src]
           options:
             show_source: false
-
+extra_javascript:
+  - extra/refresh_on_toggle_dark_light.js
 # Page tree
 nav:
   - Home: index.md
