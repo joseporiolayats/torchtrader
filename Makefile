@@ -62,7 +62,7 @@ lint-flake8: ## flake8 (linter)
 
 .PHONY: lint-mypy
 lint-mypy: ## mypy (static-type checker)
-	@mypy --config-file pyproject.toml .
+	@mypy --follow-imports silent --config-file pyproject.toml .
 
 .PHONY: lint-mypy-report
 lint-mypy-report: ## run mypy & create report
