@@ -29,37 +29,49 @@ theme:
         icon: material/toggle-switch
         name: Switch to light mode
 
-  pymdownx.superfences:
-    # make exceptions to highlighting of code:
-    custom_fences:
-      - name: mermaid
-        class: mermaid
-        #            format: !!python/name:mermaid2.fence_mermaid
-        format: mermaid2.fence_mermaid
+#  pymdownx.superfences:
+#    # make exceptions to highlighting of code:
+#    custom_fences:
+#      - name: mermaid
+#        class: mermaid
+#        #            format: !!python/name:mermaid2.fence_mermaid
+#        format: mermaid2.fence_mermaid
 
 # Extensions
 markdown_extensions:
   - admonition # alerts
+#  - mermaid
   - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
       guess_lang: false
+      pygments_lang_class: true
       extend_pygments_lang:
             - name: pycon3
               lang: pycon
               options:
                 python3: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 
 
 # Plugins
 plugins:
   - search
-  - mermaid2:
-      arguments:
-        # test if its __palette_1 (dark) or __palette_2 (light)
-        # for mkdocs-material >=8.0.0
-        theme: |
-          ^(JSON.parse(__md_get("__palette").index == 1)) ? 'dark' : 'light'
+#  - mermaid2:
+#      arguments:
+#        # test if its __palette_1 (dark) or __palette_2 (light)
+#        # for mkdocs-material >=8.0.0
+#        theme: |
+#          ^(JSON.parse(__md_get("__palette").index == 1)) ? 'dark' : 'light'
   - autorefs
+#  - pygments
   - mkdocstrings:
       enabled: true
       custom_templates: templates

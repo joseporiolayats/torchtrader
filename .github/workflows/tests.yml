@@ -1,7 +1,10 @@
 name: Tests
 
 on:
-  - push
+  workflow_dispatch:
+  release:
+    types: [ published ]
+#  - push
 ##  - pull_request
 #
 # Allow one concurrent deployment
