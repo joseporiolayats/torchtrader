@@ -51,6 +51,3 @@ class RSI(nn.Module):
 
     def compute_rsi(self, rs: torch.Tensor) -> torch.Tensor:
         return 100 - (100 / (1 + rs))
-
-
-# %%
