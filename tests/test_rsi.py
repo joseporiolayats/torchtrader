@@ -4,7 +4,7 @@ from torch.jit import script
 from torchtrader.ta.rsi import RSI
 
 
-def test_rsi():
+def test_rsi() -> None:
     torch.manual_seed(42)
     prices = torch.randn(100)
     scripted_rsi_calculator = script(RSI())
