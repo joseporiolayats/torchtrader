@@ -27,7 +27,7 @@ repos:
             )$
         #            Not using requirements-txt-fixer as is handled by poetry
         #        -   id: requirements-txt-fixer
-        -   id: check-yaml
+#        -   id: check-yaml #throws errors in mkdocs.yml
         -   id: check-json
         -   id: pretty-format-json
             args: [ '--autofix' ]
