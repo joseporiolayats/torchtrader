@@ -1,6 +1,7 @@
 import torch
-from rsi import RSI
 from torch.jit import script
+
+from torchtrader.ta.rsi import RSI
 
 
 def test_rsi():
