@@ -1,72 +1,46 @@
-"""
-## RSI Test
-
-This test checks the functionality of the RSI class.
-
-### Fixture
-
-#### `rsi`
-
-Creates an instance of the RSI class with `window_size=5`.
-
-### Test Function
-
-#### `test_rsi(rsi)`
-
-Tests the RSI class by computing the RSI values for a sample input tensor and
-checking that the output values have the correct shape, type, and range.
-
-#### Arguments
-
-- `rsi` (RSI): An instance of the RSI class.
-
-#### Returns
-
-- `None`
-
-"""
-
-
-import pytest
 import torch
-
-from torchtrader.ta.rsi import RSI
-
-
-@pytest.fixture
-def rsi():
-    """
-    Fixture that creates an instance of the RSI class with window_size=5.
-
-    Returns:
-        RSI: An instance of the RSI class with window_size=5.
-    """
-    # Create an instance of the RSI class with window_size = 5
-    return RSI(window_size=5)
+from rsi import RSI
+from torch.jit import script
 
 
-def test_rsi(rsi):
-    """
-    Test function for the RSI class.
+def test_rsi():
+    torch.manual_seed(42)
+    prices = torch.randn(100)
+    scripted_rsi_calculator = script(RSI())
+    window_size = 14
+    scripted_rsi = scripted_rsi_calculator(prices, window_size)
 
-    Args:
-        rsi (RSI): An instance of the RSI class.
+    assert scripted_rsi.shape == (100 - window_size + 1,)
+    assert (scripted_rsi >= 0).all() and (scripted_rsi <= 100).all()
 
-    Returns:
-        None
-    """
-    # Test the RSI class on a sample input
-    prices = torch.tensor(
-        [[10.0, 11.0, 12.0, 11.0, 10.0, 9.0, 8.0, 9.0, 10.0, 11.0]]
+    # Test for a simple constant price series (RSI should be NaN)
+    constant_prices = torch.tensor([50.0] * 100)
+    scripted_rsi_constant = scripted_rsi_calculator(
+        constant_prices, window_size
     )
-    rsi_values = rsi(prices)
 
-    # Check that the output has the correct shape and type
-    assert isinstance(rsi_values, torch.Tensor)
-    assert rsi_values.shape == prices.shape
+    assert torch.isnan(scripted_rsi_constant).all()
 
-    # Check that the output values are within the expected range
-    assert (rsi_values >= 0).all() and (rsi_values <= 100).all()
+    # Test for a simple increasing price series (RSI should be 100)
+    increasing_prices = torch.tensor([i for i in range(1, 101)])
+    scripted_rsi_increasing = scripted_rsi_calculator(
+        increasing_prices, window_size
+    )
+
+    assert torch.isclose(
+        scripted_rsi_increasing, torch.tensor(100.0), atol=1e-6
+    ).all()
+
+    # Test for a simple decreasing price series (RSI should be 0)
+    decreasing_prices = torch.tensor([i for i in range(100, 0, -1)])
+    scripted_rsi_decreasing = scripted_rsi_calculator(
+        decreasing_prices, window_size
+    )
+
+    assert torch.isclose(
+        scripted_rsi_decreasing, torch.tensor(0.0), atol=1e-6
+    ).all()
 
 
-# %%
+if __name__ == "__main__":
+    test_rsi()
