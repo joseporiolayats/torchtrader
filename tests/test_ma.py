@@ -1,82 +1,33 @@
-"""
-The test_moving_average() function asserts that the output of the
-MovingAverage module matches the expected values for a given input.
-
-Data:
-
-values: A tensor of input values to compute the moving average.
-window_size: An integer representing the window size to use for the
-moving average.
-First, the function instantiates a MovingAverage object with the given
-window size.
-
-Then, it computes the moving average values by passing in the data to the
-object's forward() method.
-
-Finally, it compares the computed values to the expected values and raises
- n assertion error
-if they don't match.
-"""
-
-import pytest
 import torch
 
 from torchtrader.ta.ma import MovingAverage
 
-
-@pytest.fixture
-def moving_average():
-    """
-    Pytest fixture that creates a MovingAverage instance with window size 3.
-
-    Returns:
-        MovingAverage: A MovingAverage instance with window size 3.
-    """
-    return MovingAverage()
+# Create a torch.jit.ScriptModule from the MovingAverage class
+MovingAverageTorchScript = torch.jit.script(MovingAverage())
 
 
-def test_initial_value(moving_average):
-    """
-    Test the initial value of the moving average.
+def test_moving_average():
+    ma = MovingAverageTorchScript
 
-    Args:
-        moving_average (MovingAverage): A MovingAverage instance with
-        window size 3.
-    """
-    assert moving_average.get() == torch.tensor(0.0)
+    # Test initial state
+    assert torch.isclose(ma.get(), torch.tensor(0.0))
 
+    # Test with a single value
+    ma.forward(torch.tensor(1.0), 3)
+    assert torch.isclose(ma.get(), torch.tensor(1.0 / 3))
 
-def test_update(moving_average):
-    """
-    Test updating the moving average with many values.
+    # Test with two values
+    ma.forward(torch.tensor(2.0), 3)
+    assert torch.isclose(ma.get(), torch.tensor(1.0))
 
-    Args:
-        moving_average (MovingAverage): A MovingAverage instance with
-        window size 3.
-    """
-    moving_average.update(torch.tensor(2.0))
-    assert moving_average.get() == torch.tensor(0.6667)
+    # Test with three values
+    ma.forward(torch.tensor(3.0), 3)
+    assert torch.isclose(ma.get(), torch.tensor(2.0))
 
-    moving_average.update(torch.tensor(4.0))
-    assert moving_average.get() == torch.tensor(2.0)
+    # Test with four values (rolling)
+    ma.forward(torch.tensor(4.0), 3)
+    assert torch.isclose(ma.get(), torch.tensor(3.0))
 
-    moving_average.update(torch.tensor(6.0))
-    assert moving_average.get() == torch.tensor(4.0)
-
-
-def test_reset(moving_average):
-    """
-    Test resetting the moving average to its initial value.
-
-    Args:
-        moving_average (MovingAverage): A MovingAverage instance with
-        window size 3.
-    """
-    moving_average.update(torch.tensor(2.0))
-    assert moving_average.get() == torch.tensor(0.6667)
-
-    moving_average.reset()
-    assert moving_average.get() == torch.tensor(0.0)
-
-
-# %%
+    # Test with a different window_size
+    ma.forward(torch.tensor(5.0), 2)
+    assert torch.isclose(ma.get(), torch.tensor(6.0))
