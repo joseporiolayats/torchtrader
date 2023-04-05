@@ -29,18 +29,18 @@ theme:
         icon: material/toggle-switch
         name: Switch to light mode
 
-  pymdownx.highlight:
-  pymdownx.superfences:
-    # make exceptions to highlighting of code:
-    custom_fences:
-      - name: mermaid
-        class: mermaid
-#        format: !!python/name:mermaid2.fence_mermaid
-        format: mermaid2.fence_mermaid
 
 # Extensions
 markdown_extensions:
   - admonition # alerts
+  - pymdownx.highlight
+  - pymdownx.superfences:
+        # make exceptions to highlighting of code:
+        custom_fences:
+          - name: mermaid
+            class: mermaid
+            #        format: !!python/name:mermaid2.fence_mermaid
+            format: mermaid2.fence_mermaid
 
 # Plugins
 plugins:
