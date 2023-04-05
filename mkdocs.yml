@@ -40,7 +40,14 @@ theme:
 # Extensions
 markdown_extensions:
   - admonition # alerts
-  - pymdownx.highlight
+  - pymdownx.highlight:
+      guess_lang: false
+      extend_pygments_lang:
+            - name: pycon3
+              lang: pycon
+              options:
+                python3: true
+
 
 
 # Plugins
@@ -64,10 +71,15 @@ plugins:
             show_source: false
 extra_javascript:
   - extra/refresh_on_toggle_dark_light.js
-  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
-  - javascripts/config.js
-extra_css:
-  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
+#  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+#extra_css:
+#  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
+#extra_javascript:
+  # Define javascript to allow table sorting
+  # From: https://squidfunk.github.io/mkdocs-material/reference/data-tables/#sortable-tables
+#  - theme/js/tablesort.min.js
+  # Define personal custom javascript
+
 
 # Page tree
 nav:
