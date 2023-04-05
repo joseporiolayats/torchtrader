@@ -6,9 +6,9 @@ from torch import nn
 
 
 class RSI(nn.Module):
-    def __init__(self):
+    def __init__(self, window_size=14):
         super().__init__()
-        self.window_size = 14
+        self.window_size = window_size
 
     def forward(self, prices: torch.Tensor, window_size: int) -> torch.Tensor:
         self.window_size = window_size
