@@ -29,6 +29,7 @@ theme:
         icon: material/toggle-switch
         name: Switch to light mode
 
+  pymdownx.highlight:
   pymdownx.superfences:
     # make exceptions to highlighting of code:
     custom_fences:
