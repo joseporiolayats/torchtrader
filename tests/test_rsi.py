@@ -3,6 +3,20 @@ from torch.jit import script
 
 from torchtrader.ta.rsi import RSI
 
+#
+# @pytest.fixture
+# def rsi():
+#     """
+#     Pytest fixture that creates a MovingAverage instance with window size 3.
+#
+#     Returns:
+#         MovingAverage: A MovingAverage instance with window size 3.
+#     """
+#     return RSI()
+#
+#
+#
+
 
 def test_rsi() -> None:
     torch.manual_seed(42)
