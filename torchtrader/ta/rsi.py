@@ -18,7 +18,7 @@ class RSI(nn.Module):
     ```
     """
 
-    def __init__(self, window_size=14):
+    def __init__(self, window_size: int = 14):
         """
         Initializes the RSI class.
 
