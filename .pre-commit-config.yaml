@@ -71,8 +71,9 @@ repos:
       rev: v1.1.1
       hooks:
         -   id: mypy
-            files: ^src/
-            args: [--no-strict-optional, --ignore-missing-imports]
+            files: ^torchtrader/
+            args: [--no-strict-optional, --ignore-missing-imports,
+                   --follow-imports=silent]
             additional_dependencies: [tokenize-rt==3.2.0]
 
   -   repo: https://github.com/nbQA-dev/nbQA

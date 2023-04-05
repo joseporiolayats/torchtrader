@@ -61,7 +61,7 @@ plugins:
       default_handler: python
       handlers:
         python:
-          paths: [src]
+          paths: [torchtrader]
           options:
             show_source: false
 extra_javascript:

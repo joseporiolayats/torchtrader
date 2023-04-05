@@ -7,7 +7,7 @@ readme = "README.md"
 documentation = "https://joseporiolayats.github.io/torchtrader"
 repository = "https://github.com/joseporiolayats/torchtrader"
 keywords = ["trading","bots","markets"]
-packages = [{include = "src/torchtrader" }]
+packages = [{include = "torchtrader" }]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -85,7 +85,7 @@ module = "numpy"
 ignore_errors = true
 
 [tool.pytest.ini_options]
-testpaths = ["src", "tests"]
+testpaths = ["torchtrader", "tests"]
 addopts = "-p no:cacheprovider" # deactivating pytest caching.
 
 [tool.coverage.report]
@@ -95,7 +95,7 @@ exclude_lines = [
 
 [tool.semantic_release]
 branch = "main"
-version_variable = "src/torchtrader/__init__.py:__version__"
+version_variable = "torchtrader/__init__.py:__version__"
 version_toml = "pyproject.toml:tool.poetry.version"
 version_source = "tag"
 commit_version_number = true # required for version_source = "tag"

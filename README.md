@@ -75,8 +75,8 @@ Full project documentation is here https://joseporiolayats.github.io/torchtrader
 │                         generated with `pip freeze > requirements.txt`
 │
 ├── setup.py           <- Make this project pip installable with `pip install -e`
-├── src                <- Source code for use in this project.
-│   ├── __init__.py    <- Makes src a Python module
+├── torchtrader                <- Source code for use in this project.
+│   ├── __init__.py    <- Makes torchtrader a Python module
 │   │
 │   ├── data           <- Scripts to download or generate data
 │   │   └── make_dataset.py

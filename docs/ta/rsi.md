@@ -74,6 +74,7 @@ The RSI class has the following methods:
 
 ```python
 import torch from torch.jit import script
+from torchtrader.ta.rsi import RSI
 
 # Set the seed
 torch.manual_seed(42)

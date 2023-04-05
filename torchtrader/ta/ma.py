@@ -1,7 +1,6 @@
 """
 Moving Average implemented in PyTorch with "Just In Time" (JIT) compilation
 """
-
 import torch
 
 
