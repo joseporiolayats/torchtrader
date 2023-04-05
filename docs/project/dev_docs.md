@@ -78,8 +78,7 @@ The Torch Trader platform is organized into several components and modules, incl
 These components interact with each other to provide a seamless trading experience. The following sections describe the roles of each component in more detail.
 
 
-###
-    **2.2 Interactions and Data Flow**
+### **2.2 Interactions and Data Flow**
 
 The interactions and data flow among the different components and modules of Torch Trader are as follows:
 
@@ -91,8 +90,7 @@ The interactions and data flow among the different components and modules of Tor
 4. **Optimization** uses advanced algorithms and deep learning techniques to fine-tune trading strategies and improve their performance. The module interacts with the Backtesting component to test various strategy configurations and the Scripting component to access custom indicators and strategy code.
 5. **Trading Bots** automate the execution of trading strategies based on user-defined rules and configurations. The bots communicate with external trading platforms to execute orders, monitor open positions, and track overall performance.
 
-##
-    **3. API Reference**
+## **3. API Reference**
 
 
 Torch Trader provides a comprehensive set of APIs to interact with its various components and modules. The API documentation is organized as follows:
@@ -108,8 +106,7 @@ Torch Trader provides a comprehensive set of APIs to interact with its various c
 Each API section includes detailed information on the available functions, classes, and data structures, along with example usage.
 
 
-##
-    **4. Customization and Extension**
+## **4. Customization and Extension**
 
 Torch Trader is designed to be highly customizable and extensible, allowing developers to add new features and functionality. The following sections describe common customization and extension tasks:
 
@@ -123,8 +120,7 @@ Torch Trader is designed to be highly customizable and extensible, allowing deve
 Refer to the linked sections for step-by-step tutorials and best practices for each task.
 
 
-##
-    **5. Tutorials**
+##  **5. Tutorials**
 
 The Torch Trader developer documentation includes a set of tutorials to help you get started with various development tasks:
 
@@ -136,13 +132,11 @@ The Torch Trader developer documentation includes a set of tutorials to help you
 Each tutorial provides a detailed walkthrough of the development process, including code examples and tips for success.
 
 
-##
-    **6. Contributing to Torch Trader**
+## **6. Contributing to Torch Trader**
 
 We welcome contributions from the developer community! If you're interested in contributing to Torch Trader, please review our[ contribution guidelines](https://github.com/torchtrader/torchtrader/blob/master/CONTRIBUTING.md) and[ code of conduct](https://github.com/torchtrader/torchtrader/blob/master/CODE_OF_CONDUCT.md) for more information.
 
 
-##
-    **7. License and Copyright**
+## **7. License and Copyright**
 
 Torch Trader is released under the[ MIT License](https://github.com/torchtrader/torchtrader/blob/master/LICENSE). Copyright (c) Torch Trader Project.
