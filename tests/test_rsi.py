@@ -22,7 +22,7 @@ def test_rsi():
     assert torch.isnan(scripted_rsi_constant).all()
 
     # Test for a simple increasing price series (RSI should be 100)
-    increasing_prices = torch.tensor([i for i in range(1, 101)])
+    increasing_prices = torch.tensor(list(range(1, 101)))
     scripted_rsi_increasing = scripted_rsi_calculator(
         increasing_prices, window_size
     )
@@ -32,7 +32,7 @@ def test_rsi():
     ).all()
 
     # Test for a simple decreasing price series (RSI should be 0)
-    decreasing_prices = torch.tensor([i for i in range(100, 0, -1)])
+    decreasing_prices = torch.tensor(list(range(100, 0, -1)))
     scripted_rsi_decreasing = scripted_rsi_calculator(
         decreasing_prices, window_size
     )

@@ -16,9 +16,7 @@ class RSI(nn.Module):
         gains, losses = self.compute_individual_gains_losses(gains_losses)
         avg_gain, avg_loss = self.compute_avg_gain_loss(gains, losses)
         rs = self.compute_rs(avg_gain, avg_loss)
-        rsi = self.compute_rsi(rs)
-
-        return rsi
+        return self.compute_rsi(rs)
 
     def compute_individual_gains_losses(
         self, gains_losses: torch.Tensor
