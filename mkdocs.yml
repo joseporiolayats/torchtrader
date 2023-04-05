@@ -64,6 +64,11 @@ plugins:
             show_source: false
 extra_javascript:
   - extra/refresh_on_toggle_dark_light.js
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+  - javascripts/config.js
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
+
 # Page tree
 nav:
   - Home: index.md
