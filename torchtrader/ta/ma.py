@@ -40,7 +40,7 @@ class MovingAverage(torch.nn.Module):
         Returns:
             The current value of the moving average.
         """
-        return torch.sum(self.values) / self.window_size
+        return torch.div(torch.sum(self.values), self.window_size)
 
     def forward(self, value: Tensor, window_size: int) -> Tensor:
         """

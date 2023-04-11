@@ -50,8 +50,9 @@ class RSI(nn.Module):
         rs = self.compute_rs(avg_gain, avg_loss)
         return self.compute_rsi(rs)
 
+    @staticmethod
     def compute_individual_gains_losses(
-        self, gains_losses: torch.Tensor
+        gains_losses: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Computes individual gains and losses from price changes.
@@ -96,22 +97,24 @@ class RSI(nn.Module):
 
         return avg_gain, avg_loss
 
+    @staticmethod
     def compute_rs(
-        self, avg_gain: torch.Tensor, avg_loss: torch.Tensor
+        avg_gain: torch.Tensor, avg_loss: torch.Tensor
     ) -> torch.Tensor:
         """
         Computes the Relative Strength (RS) from the average gain and loss.
 
         Args:
-            avg_gain (torch.Tensor): The     average gain of price changes.
-        avg_loss (torch.Tensor): The average loss of price changes.
+            avg_gain (torch.Tensor): The average gain of price changes.
+            avg_loss (torch.Tensor): The average loss of price changes.
 
         Returns:
             torch.Tensor: The Relative Strength (RS) values.
         """
-        return avg_gain / (avg_loss + 1e-10)
+        return torch.div(avg_gain, (avg_loss + 1e-10))
 
-    def compute_rsi(self, rs: torch.Tensor) -> torch.Tensor:
+    @staticmethod
+    def compute_rsi(rs: torch.Tensor) -> torch.Tensor:
         """
         Computes the RSI values from the Relative Strength (RS) values.
 
@@ -121,4 +124,4 @@ class RSI(nn.Module):
         Returns:
             torch.Tensor: The RSI values.
         """
-        return 100 - (100 / (1 + rs))
+        return 100 - torch.div(100, (1 + rs))
