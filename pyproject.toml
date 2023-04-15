@@ -13,8 +13,8 @@ packages = [{include = "torchtrader" }]
 python = "^3.10"
 pre-commit = "^3.2.1"
 torch = "^2.0.0"
-plotly-express = "^0.4.1"
 jupyter = "^1.0.0"
+
 
 
 [tool.poetry.group.lint.dependencies]
@@ -27,6 +27,7 @@ ruff = "^0.0.260"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.2.2"
+pytest-coverage = "^0.0"
 pytest-sugar = "^0.9.5"
 pytest-cov = "^4.0.0"
 respx = "^0.20.0"
@@ -84,7 +85,11 @@ ignore_errors = true
 
 [tool.pytest.ini_options]
 testpaths = ["torchtrader", "tests"]
-addopts = "-p no:cacheprovider" # deactivating pytest caching.
+python_files="test_*.py"
+python_functions="test_*"
+python_classes = "Test* *Tests"
+addopts = "-vv -x -s --cov=app --cov-report term-missing -p no:cacheprovider"
+asyncio_mode="auto"
 
 [tool.coverage.report]
 exclude_lines = [
