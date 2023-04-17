@@ -1,0 +1,1256 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Automated trading framework using DL tools">
+      
+      
+        <meta name="author" content="Josep Oriol Ayats">
+      
+      
+        <link rel="canonical" href="https://joseporiolayats.github.io/torchtrader/project/plan/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Project Plan - Torch Trader</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#torch-trader-project-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Torch Trader" class="md-header__button md-logo" aria-label="Torch Trader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Torch Trader
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Project Plan
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/joseporiolayats/torchtrader" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    joseporiolayats/torchtrader
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Torch Trader" class="md-nav__button md-logo" aria-label="Torch Trader" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Torch Trader
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/joseporiolayats/torchtrader" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    joseporiolayats/torchtrader
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../definition/" class="md-nav__link">
+        Definition
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Project Guidelines
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Project Guidelines" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Project Guidelines
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proposal/" class="md-nav__link">
+        Proposal
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../requirements/" class="md-nav__link">
+        Requirements
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        Architecture
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design_detailed/" class="md-nav__link">
+        Detailed Design
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Project Plan
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Project Plan
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    1. Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-project-objectives" class="md-nav__link">
+    2. Project Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-project-resources" class="md-nav__link">
+    3. Project Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-project-schedule" class="md-nav__link">
+    4. Project Schedule
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Project Schedule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-milestones" class="md-nav__link">
+    4.1 Milestones
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-risk-management" class="md-nav__link">
+    5. Risk Management
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Risk Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-risk-identification" class="md-nav__link">
+    5.1 Risk Identification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-risk-assessment-and-mitigation" class="md-nav__link">
+    5.2 Risk Assessment and Mitigation
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Risk Assessment and Mitigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-technical-risks" class="md-nav__link">
+    5.2.1 Technical Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-schedule-risks" class="md-nav__link">
+    5.2.2 Schedule Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-resource-risks" class="md-nav__link">
+    5.2.3 Resource Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#524-security-risks" class="md-nav__link">
+    5.2.4 Security Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#525-legal-and-regulatory-risks" class="md-nav__link">
+    5.2.5 Legal and Regulatory Risks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-conclusion" class="md-nav__link">
+    6. Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        Testing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user_docs/" class="md-nav__link">
+        User Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dev_docs/" class="md-nav__link">
+        Developer Documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../support/" class="md-nav__link">
+        Maintenance and Support
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Application
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Application" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Application
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/api/" class="md-nav__link">
+        API
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../app/schemas/" class="md-nav__link">
+        Schemas
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/operations/" class="md-nav__link">
+        Operations
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data/database/" class="md-nav__link">
+        Database
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../config/config/" class="md-nav__link">
+        Configurations
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Technical Analysis
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical Analysis" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Technical Analysis
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ta/ma/" class="md-nav__link">
+        MA - Moving Average
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ta/rsi/" class="md-nav__link">
+        RSI - Relative Strength Index
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ta/ichimoku/" class="md-nav__link">
+        Ichimoku Cloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/data/" class="md-nav__link">
+        Data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/eval/" class="md-nav__link">
+        Eval
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/models/" class="md-nav__link">
+        Models
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/training/" class="md-nav__link">
+        Training
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/prediction/" class="md-nav__link">
+        Inference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../torchtrader/utils/" class="md-nav__link">
+        Utilities
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    1. Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-project-objectives" class="md-nav__link">
+    2. Project Objectives
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-project-resources" class="md-nav__link">
+    3. Project Resources
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-project-schedule" class="md-nav__link">
+    4. Project Schedule
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Project Schedule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-milestones" class="md-nav__link">
+    4.1 Milestones
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-risk-management" class="md-nav__link">
+    5. Risk Management
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Risk Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-risk-identification" class="md-nav__link">
+    5.1 Risk Identification
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-risk-assessment-and-mitigation" class="md-nav__link">
+    5.2 Risk Assessment and Mitigation
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Risk Assessment and Mitigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-technical-risks" class="md-nav__link">
+    5.2.1 Technical Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-schedule-risks" class="md-nav__link">
+    5.2.2 Schedule Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-resource-risks" class="md-nav__link">
+    5.2.3 Resource Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#524-security-risks" class="md-nav__link">
+    5.2.4 Security Risks
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#525-legal-and-regulatory-risks" class="md-nav__link">
+    5.2.5 Legal and Regulatory Risks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-conclusion" class="md-nav__link">
+    6. Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="torch-trader-project-plan"><strong>Torch Trader: Project Plan</strong></h1>
+<h2 id="1-introduction"><strong>1. Introduction</strong></h2>
+<p>This project plan outlines the steps required to develop and deploy the Torch Trader platform, a comprehensive trading solution that supports stocks and cryptocurrencies. Torch Trader aims to provide a powerful, high-performance, and user-friendly trading environment by leveraging advanced analytics, backtesting, deep learning, and trading bot automation. This document provides an overview of the project's objectives, resources, schedule, and risk management, along with Mermaid diagrams to illustrate the workflows and milestones.</p>
+<h2 id="2-project-objectives"><strong>2. Project Objectives</strong></h2>
+<p>The primary objectives of the Torch Trader project are:</p>
+<ol>
+<li>Develop a comprehensive trading solution for stocks and cryptocurrencies.</li>
+<li>Implement advanced analytics, backtesting, deep learning, and trading bot automation.</li>
+<li>Deliver a user-friendly and high-performance platform.</li>
+<li>Provide flexible deployment options, including local, cloud, and hybrid configurations.</li>
+<li>Ensure maintainability, extensibility, and scalability of the platform.</li>
+</ol>
+<h2 id="3-project-resources"><strong>3. Project Resources</strong></h2>
+<p>The project resources include:</p>
+<ol>
+<li>Development Team: Skilled Python developers, data scientists, and UI/UX designers.</li>
+<li>External Libraries and Frameworks: PyTorch, TA-Lib, Tulipy, Backtrader, PyAlgoTrade, Zipline, Flask, Django, PyQt, and Tkinter.</li>
+<li>APIs and Data Sources: Alpha Vantage, Yahoo Finance, and Binance.</li>
+<li>Hardware: Local development machines, cloud infrastructure (AWS, GCP, or Azure), and GPU support with CUDA.</li>
+<li>Project Management Tools: Version control (Git), task management (Trello), and communication (Slack).</li>
+</ol>
+<h2 id="4-project-schedule"><strong>4. Project Schedule</strong></h2>
+<pre class="mermaid"><code>gantt
+    dateFormat  YYYY-MM-DD
+    title Torch Trader Project Schedule
+    section Data Collection and Storage
+    Task 1           :done,    des1, 2023-04-10, 2023-04-24
+    Task 2           :active,  des2, 2023-04-25, 2023-05-08
+    section Technical Analysis and Scripting
+    Task 3           :         des3, 2023-05-09, 2023-05-23
+    Task 4           :         des4, 2023-05-24, 2023-06-07
+    section Backtesting Engine
+    Task 5           :         des5, 2023-06-08, 2023-06-22
+    Task 6           :         des6, 2023-06-23, 2023-07-07
+    section Strategy Optimization and Deep Learning
+    Task 7           :         des7, 2023-07-08, 2023-07-22
+    Task 8           :         des8, 2023-07-23, 2023-08-06
+    section Trading Bots and Monitoring
+    Task 9           :         des9, 2023-08-07, 2023-08-21
+    Task 10          :         des10, 2023-08-22, 2023-09-05
+    section User Interface
+    Task 11          :         des11, 2023-09-06, 2023-09-20
+    Task 12          :         des12, 2023-09-21, 2023-10-05
+    section Testing and Deployment
+    Task 13          :         des13, 2023-10-06, 2023-10-20
+    Task 14          :         des14, 2023-10-21, 2023-11-04</code></pre>
+<h3 id="41-milestones"><strong>4.1 Milestones</strong></h3>
+<ol>
+<li>Data Collection and Storage (2023-04-10 to 2023-05-08)<ul>
+<li>Collect market data from stock and crypto markets.</li>
+<li>Store historical and real-time data in a structured format.</li>
+</ul>
+</li>
+<li>Technical Analysis and Scripting (2023-05-09 to 2023-06-07)<ul>
+<li>Implement built-in technical indicators.</li>
+<li>Enable users to create, edit, and manage custom trading strategies.</li>
+</ul>
+</li>
+<li>Backtesting Engine (2023-06-08 to 2023-07-07)<ul>
+<li>Simulate trading with historical data.</li>
+<li>Evaluate the performance of user-defined strategies.</li>
+</ul>
+</li>
+<li>Strategy Optimization and Deep Learning (2023-07-08 to 2023-08-06)<ul>
+<li>Implement deep learning models for strategy optimization.</li>
+<li>Support GPU acceleration with CUDA.</li>
+<li>Apply optimization algorithms to fine-tune strategies.</li>
+</ul>
+</li>
+<li>Trading Bots and Monitoring (2023-08-07 to 2023-09-05)<ul>
+<li>Develop trading bots for popular stock and crypto exchanges.</li>
+<li>Implement a monitoring system for bot performance.</li>
+</ul>
+</li>
+<li>User Interface (2023-09-06 to 2023-10-05)<ul>
+<li>Design and implement a user-friendly and responsive interface.</li>
+<li>Support multiple interface options, including command-line, web, and desktop.</li>
+</ul>
+</li>
+<li>Testing and Deployment (2023-10-06 to 2023-11-04)<ul>
+<li>Perform thorough testing of the platform.</li>
+<li>Deploy the platform to local, cloud, or hybrid environments, depending on user requirements.</li>
+</ul>
+</li>
+</ol>
+<h2 id="5-risk-management"><strong>5. Risk Management</strong></h2>
+<h3 id="51-risk-identification"><strong>5.1 Risk Identification</strong></h3>
+<ol>
+<li>Technical Risks: Potential difficulties in integrating various libraries, frameworks, and APIs.</li>
+<li>Schedule Risks: Delays in development or unforeseen challenges that may impact the project timeline.</li>
+<li>Resource Risks: Availability and performance of development resources, such as skilled personnel or hardware infrastructure.</li>
+<li>Security Risks: Vulnerabilities in the platform, including data protection and privacy concerns.</li>
+<li>Legal and Regulatory Risks: Compliance with applicable laws and regulations related to trading, data usage, and privacy.</li>
+</ol>
+<h3 id="52-risk-assessment-and-mitigation"><strong>5.2 Risk Assessment and Mitigation</strong></h3>
+<h4 id="521-technical-risks"><strong>5.2.1 Technical Risks</strong></h4>
+<ul>
+<li><strong>Assessment</strong>: Integration of multiple libraries, frameworks, and APIs may cause compatibility issues or unexpected behavior.</li>
+<li><strong>Mitigation</strong>: Careful planning of the platform's architecture, thorough research on library compatibility, and proper error handling.</li>
+</ul>
+<h4 id="522-schedule-risks"><strong>5.2.2 Schedule Risks</strong></h4>
+<ul>
+<li><strong>Assessment</strong>: Delays in development or unforeseen challenges may cause the project to miss deadlines or exceed the budget.</li>
+<li><strong>Mitigation</strong>: Implement agile development methodologies, allocate sufficient time for testing and debugging, and maintain open communication within the team.</li>
+</ul>
+<h4 id="523-resource-risks"><strong>5.2.3 Resource Risks</strong></h4>
+<ul>
+<li><strong>Assessment</strong>: Insufficient or underperforming resources, such as skilled personnel or hardware infrastructure, may impact project quality or completion.</li>
+<li><strong>Mitigation</strong>: Ensure adequate staffing and hardware resources, provide training for team members, and monitor resource utilization throughout the project.</li>
+</ul>
+<h4 id="524-security-risks"><strong>5.2.4 Security Risks</strong></h4>
+<ul>
+<li><strong>Assessment</strong>: Potential vulnerabilities in the platform may lead to data breaches, unauthorized access, or other security threats.</li>
+<li><strong>Mitigation</strong>: Implement robust security measures, perform regular security audits, and educate team members on security best practices.</li>
+</ul>
+<h4 id="525-legal-and-regulatory-risks"><strong>5.2.5 Legal and Regulatory Risks</strong></h4>
+<ul>
+<li><strong>Assessment</strong>: Failure to comply with applicable laws and regulations may result in fines, penalties, or damage to the project's reputation.</li>
+<li><strong>Mitigation</strong>: Conduct thorough research on relevant laws and regulations, consult legal experts as needed, and incorporate compliance measures into the platform's design.</li>
+</ul>
+<h2 id="6-conclusion"><strong>6. Conclusion</strong></h2>
+<p>The Torch Trader project plan outlines a detailed roadmap for developing and deploying a comprehensive trading platform that caters to a wide range of users, from novice traders to professional institutions. By following the outlined schedule, milestones, and risk management strategies, the development team can successfully deliver a powerful, user-friendly, and high-performance trading solution that leverages advanced analytics, backtesting, deep learning, and trading bot automation to meet the ever-evolving demands of the stock and cryptocurrency markets.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../design_detailed/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Detailed Design" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Detailed Design
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../testing/" class="md-footer__link md-footer__link--next" aria-label="Next: Testing" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Testing
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../../extra/refresh_on_toggle_dark_light.js"></script>
+      
+    
+    
+  </body>
+</html>
