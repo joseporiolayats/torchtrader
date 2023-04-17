@@ -87,6 +87,7 @@ nav:
       - API: app/api.md
       - Schemas: app/schemas.md
   - Operations: torchtrader/operations.md
+  - Database: data/database.md
   - Configurations: config/config.md
   - Technical Analysis:
       - MA - Moving Average: ta/ma.md
