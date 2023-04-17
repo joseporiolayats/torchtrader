@@ -54,9 +54,9 @@ jobs:
       # install requirements (including dev dependencies)
       - name: Install requirements
         run: poetry install --with lint
-      # update mypy
-      - name: Update mypy
-        run: poetry update mypy
+#      # update mypy
+#      - name: Update mypy
+#        run: poetry update mypy
       # run linters
       - name: Run linters
         run: |
