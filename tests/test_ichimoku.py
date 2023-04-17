@@ -15,7 +15,6 @@
      object's `forward()` method.
 
     """
-
 import pytest
 import torch
 
@@ -43,9 +42,7 @@ def test_ichimoku_cloud(cloud):
     close = torch.tensor([9.0, 10.0, 11.0, 12.0, 13.0, 14.0])
 
     # Compute the Ichimoku Cloud values
-    conversion_line, base_line, span_a, span_b, chikou_span = cloud(
-        high, low, close
-    )
+    conversion_line, base_line, span_a, span_b, chikou_span = cloud(high, low, close)
 
     assert isinstance(conversion_line, torch.Tensor)
     assert isinstance(base_line, torch.Tensor)

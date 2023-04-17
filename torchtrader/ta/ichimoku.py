@@ -49,9 +49,7 @@ class IchimokuCloud(torch.nn.Module):
             ]
         )
 
-    def forward(
-        self, high: torch.Tensor, low: torch.Tensor, close: torch.Tensor
-    ) -> tuple:
+    def forward(self, high: torch.Tensor, low: torch.Tensor, close: torch.Tensor) -> tuple:
         """
         Computes the Ichimoku Cloud indicator based on the high, low,
          and close price data.
@@ -68,24 +66,17 @@ class IchimokuCloud(torch.nn.Module):
         """
         # Compute the conversion line
         conversion_line = (
-            self.kernel(high, self.conversion_period)
-            + self.kernel(low, self.conversion_period)
+            self.kernel(high, self.conversion_period) + self.kernel(low, self.conversion_period)
         ) / 2
 
         # Compute the baseline
-        base_line = (
-            self.kernel(high, self.base_period)
-            + self.kernel(low, self.base_period)
-        ) / 2
+        base_line = (self.kernel(high, self.base_period) + self.kernel(low, self.base_period)) / 2
 
         # Compute span A
         span_a = (conversion_line + base_line) / 2
 
         # Compute span B
-        span_b = (
-            self.kernel(high, self.span_b_period)
-            + self.kernel(low, self.span_b_period)
-        ) / 2
+        span_b = (self.kernel(high, self.span_b_period) + self.kernel(low, self.span_b_period)) / 2
 
         # Compute chikou span
         chikou_span = torch.roll(close, -self.base_period)
