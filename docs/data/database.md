@@ -74,3 +74,6 @@ db.close_session()
 
 
 In this example, we create a new `TorchtraderDatabase` instance, connect to the database, create a table for Binance 1-hour data, add a data entry to the table, and then close the session
+
+
+::: torchtrader.data.database
