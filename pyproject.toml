@@ -16,6 +16,8 @@ torch = "^2.0.0"
 jupyter = "^1.0.0"
 sqlalchemy = "^2.0.9"
 colorlog = "^6.7.0"
+python-dotenv = "^1.0.0"
+ccxt = "^3.0.69"
 
 
 

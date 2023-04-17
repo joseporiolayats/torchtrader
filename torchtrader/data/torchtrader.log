@@ -162,3 +162,7 @@
 2023-04-17 23:23:36,690 - torchtrader - INFO - Test tables dropped successfully
 2023-04-17 23:23:36,690 - torchtrader - INFO - Finished database test
 2023-04-17 23:23:36,691 - torchtrader - INFO - Database session closed
+2023-04-18 00:12:20,363 - torchtrader - INFO - Fetching historical data for BTC/USDT on binance with timeframe 1h between 2021-01-01 00:00:00 and 2021-01-31 00:00:00
+2023-04-18 00:12:23,773 - torchtrader - INFO - Fetched historical data for BTC/USDT on binance with timeframe 1h between 2021-01-01 00:00:00 and 2021-01-31 00:00:00
+2023-04-18 00:15:01,637 - torchtrader - INFO - Fetching historical data for BTC/USDT on binance with timeframe 1h between 2021-01-01 00:00:00 and 2021-01-31 00:00:00
+2023-04-18 00:15:05,039 - torchtrader - INFO - Fetched historical data for BTC/USDT on binance with timeframe 1h between 2021-01-01 00:00:00 and 2021-01-31 00:00:00
