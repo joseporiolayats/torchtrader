@@ -82,3 +82,20 @@
 2023-04-17 19:18:05,333 - torchtrader - INFO - Table 'test_yahoo-5m' removed successfully
 2023-04-17 19:18:05,334 - torchtrader - INFO - Test tables dropped successfully
 2023-04-17 19:18:05,334 - torchtrader - INFO - Finished database test
+2023-04-17 20:02:40,485 - torchtrader - INFO - Connecting to database 'sqlite:///torchtrader.db'
+2023-04-17 20:02:40,485 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-17 20:02:40,485 - torchtrader - INFO - Database not found, creating it
+2023-04-17 20:02:40,493 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-17 20:02:40,493 - torchtrader - INFO - Database created successfully
+2023-04-17 20:02:40,493 - torchtrader - INFO - Connected to database 'sqlite:///torchtrader.db' successfully
+2023-04-17 20:02:40,493 - torchtrader - INFO - Starting database test
+2023-04-17 20:02:40,503 - torchtrader - INFO - Adding bulk data to table test_binance-1h
+2023-04-17 20:02:40,504 - torchtrader - INFO - Adding bulk data to table test_yahoo-5m
+2023-04-17 20:02:40,505 - torchtrader - INFO - Test tables added successfully
+2023-04-17 20:02:40,505 - torchtrader - INFO - Removing table 'test_binance-1h' from the database
+2023-04-17 20:02:40,507 - torchtrader - INFO - Table 'test_binance-1h' removed successfully
+2023-04-17 20:02:40,507 - torchtrader - INFO - Removing table 'test_yahoo-5m' from the database
+2023-04-17 20:02:40,509 - torchtrader - INFO - Table 'test_yahoo-5m' removed successfully
+2023-04-17 20:02:40,510 - torchtrader - INFO - Test tables dropped successfully
+2023-04-17 20:02:40,510 - torchtrader - INFO - Finished database test
+2023-04-17 20:02:40,510 - torchtrader - INFO - Database session closed
