@@ -110,3 +110,6 @@ airflow/airflow.db
 
 ## Notebook scratches
 notebooks/*
+
+## Log files
+*.log
