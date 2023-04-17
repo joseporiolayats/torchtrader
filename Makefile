@@ -41,12 +41,12 @@ unit-tests-cov-fail: ## run unit tests with pytest and show coverage (terminal +
 format-black: ## black (code formatter)
 	@black .
 
-.PHONY: format-isort
-format-isort: ## isort (import formatter)
-	@isort .
-
-.PHONY: format
-format: format-black format-isort ## run all formatters
+#.PHONY: format-isort
+#format-isort: ## isort (import formatter)
+#	@isort .
+#
+#.PHONY: format
+#format: format-black format-isort ## run all formatters
 
 ##@ Linting
 
@@ -54,23 +54,27 @@ format: format-black format-isort ## run all formatters
 lint-black: ## black in linting mode
 	@black . --check
 
-.PHONY: lint-isort
-lint-isort: ## isort in linting mode
-	@isort . --check
+.PHONY: lint-ruff
+lint-ruff: ## ruff in linting mode
+	@ruff . --check
 
-.PHONY: lint-flake8
-lint-flake8: ## flake8 (linter)
-	@flake8 .
+#.PHONY: lint-isort
+#lint-isort: ## isort in linting mode
+#	@isort . --check
+#
+#.PHONY: lint-flake8
+#lint-flake8: ## flake8 (linter)
+#	@flake8 .
 
-.PHONY: lint-mypy
-lint-mypy: ## mypy (static-type checker)
-	@mypy --config-file pyproject.toml . --follow-imports=silent --ignore-missing-imports
-
-.PHONY: lint-mypy-report
-lint-mypy-report: ## run mypy & create report
-	@mypy --config-file pyproject.toml . --html-report ./mypy_html 	--ignore-missing-imports --follow-imports=silent
-
-lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
+#.PHONY: lint-mypy
+#lint-mypy: ## mypy (static-type checker)
+#	@mypy --config-file pyproject.toml . --follow-imports=silent --ignore-missing-imports
+#
+#.PHONY: lint-mypy-report
+#lint-mypy-report: ## run mypy & create report
+#	@mypy --config-file pyproject.toml . --html-report ./mypy_html 	--ignore-missing-imports --follow-imports=silent
+#
+#lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
 
 ##@ Documentation
 
