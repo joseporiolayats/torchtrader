@@ -64,9 +64,11 @@ data = {
     "asset_id": "BTC",
     "base_currency": "BTC",
     "quote_currency": "USDT",
-    "value": 60000,
-    "exchange": "binance",
-    "timeframe": "1h",
+    "open": 60000,
+    "high": 60500,
+    "low": 59500,
+    "close": 60100,
+    "volume": 1200,
 }
 db.add_data(data, binance_table)
 db.close_session()

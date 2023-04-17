@@ -58,9 +58,11 @@ class ExchangeBase(Base):
     asset_id = Column(String, nullable=False)
     base_currency = Column(String, nullable=False)
     quote_currency = Column(String, nullable=False)
-    value = Column(Float, nullable=False)
-    exchange = Column(String, nullable=False)
-    timeframe = Column(String, nullable=False)
+    open = Column(Float, nullable=False)
+    high = Column(Float, nullable=False)
+    low = Column(Float, nullable=False)
+    close = Column(Float, nullable=False)
+    volume = Column(Float, nullable=False)
 
 
 class TorchtraderDatabase:
@@ -213,18 +215,22 @@ class TorchtraderDatabase:
                 "asset_id": "BTC",
                 "base_currency": "BTC",
                 "quote_currency": "USDT",
-                "value": 60000,
-                "exchange": "binance",
-                "timeframe": "1h",
+                "open": 60000,
+                "high": 60500,
+                "low": 59500,
+                "close": 60100,
+                "volume": 1200,
             },
             "yahoo_data": {
                 "date_time": datetime(2023, 4, 16, 12, 0, 0),
                 "asset_id": "AAPL",
                 "base_currency": "AAPL",
                 "quote_currency": "USD",
-                "value": 150,
-                "exchange": "yahoo",
-                "timeframe": "5m",
+                "open": 150,
+                "high": 151,
+                "low": 148,
+                "close": 149,
+                "volume": 10000,
             },
         }
         self.add_data(data_bulk, binance_table)
