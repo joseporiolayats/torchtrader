@@ -56,7 +56,7 @@ lint-black: ## black in linting mode
 
 .PHONY: lint-ruff
 lint-ruff: ## ruff in linting mode
-	@ruff . --check
+	@ruff check . --fix
 
 #.PHONY: lint-isort
 #lint-isort: ## isort in linting mode
