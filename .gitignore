@@ -5,7 +5,7 @@
 
 # VSCode
 .vscode/
-.idea
+.idea/
 
 # Data
 #logs/
