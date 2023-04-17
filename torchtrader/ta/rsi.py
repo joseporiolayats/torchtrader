@@ -66,9 +66,7 @@ class RSI(nn.Module):
             gains and losses.
         """
         gains = torch.where(gains_losses > 0, gains_losses, torch.tensor(0.0))
-        losses = torch.abs(
-            torch.where(gains_losses < 0, gains_losses, torch.tensor(0.0))
-        )
+        losses = torch.abs(torch.where(gains_losses < 0, gains_losses, torch.tensor(0.0)))
         return gains, losses
 
     def compute_avg_gain_loss(
@@ -98,9 +96,7 @@ class RSI(nn.Module):
         return avg_gain, avg_loss
 
     @staticmethod
-    def compute_rs(
-        avg_gain: torch.Tensor, avg_loss: torch.Tensor
-    ) -> torch.Tensor:
+    def compute_rs(avg_gain: torch.Tensor, avg_loss: torch.Tensor) -> torch.Tensor:
         """
         Computes the Relative Strength (RS) from the average gain and loss.
 
