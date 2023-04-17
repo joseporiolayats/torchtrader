@@ -1,0 +1,84 @@
+2023-04-16 13:28:06,587 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 13:28:06,587 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:30:36,998 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 13:30:36,998 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:39:28,479 - torchtrader - INFO - Checking if database sqlite:///data/torchtrader.db exists
+2023-04-16 13:39:28,479 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:40:18,364 - torchtrader - INFO - Checking if database sqlite:///data/torchtrader.db exists
+2023-04-16 13:40:18,364 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:40:35,396 - torchtrader - INFO - Checking if database sqlite:///data/torchtrader.db exists
+2023-04-16 13:40:35,396 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:42:28,288 - torchtrader - INFO - Checking if database sqlite:///data/torchtrader.db exists
+2023-04-16 13:42:28,288 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:50:21,815 - torchtrader - INFO - Checking if database sqlite:///data/torchtrader.db exists
+2023-04-16 13:50:21,815 - torchtrader - INFO - Database not found, creating it
+2023-04-16 13:56:27,845 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 13:56:52,972 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 13:57:06,577 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 13:58:27,293 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:00:38,964 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:02:30,879 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 14:02:30,879 - torchtrader - INFO - Database not found, creating it
+2023-04-16 14:03:05,189 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:05:07,283 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:05:33,781 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:06:10,549 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:08:21,893 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:08:21,894 - torchtrader - INFO - Created table binance with timeframe 1h
+2023-04-16 14:13:41,850 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 14:13:41,850 - torchtrader - INFO - Database already exists
+2023-04-16 14:13:59,069 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 14:13:59,069 - torchtrader - INFO - Database not found, creating it
+2023-04-16 14:16:54,445 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 14:16:54,445 - torchtrader - INFO - Database not found, creating it
+2023-04-16 14:18:33,181 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 14:18:33,181 - torchtrader - INFO - Database not found, creating it
+2023-04-16 14:35:21,626 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 14:35:21,626 - torchtrader - INFO - Database not found, creating it
+2023-04-16 14:39:58,966 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:45:17,156 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:47:33,449 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:48:28,658 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:49:13,397 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:55:48,250 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 14:58:26,781 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 15:02:05,390 - torchtrader - INFO - Created new SQLite database: torchtrader.db
+2023-04-16 15:14:28,919 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 15:14:48,974 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 15:14:48,974 - torchtrader - INFO - Database not found, creating it
+2023-04-16 15:14:48,979 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-16 15:14:48,979 - torchtrader - INFO - Database created successfully
+2023-04-16 16:36:00,890 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-16 16:36:00,890 - torchtrader - INFO - Database not found, creating it
+2023-04-16 16:36:00,896 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-16 16:36:00,896 - torchtrader - INFO - Database created successfully
+2023-04-17 17:10:18,527 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-17 17:10:18,527 - torchtrader - INFO - Database not found, creating it
+2023-04-17 17:10:18,532 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-17 17:10:18,532 - torchtrader - INFO - Database created successfully
+2023-04-17 18:11:58,426 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-17 18:11:58,426 - torchtrader - INFO - Database not found, creating it
+2023-04-17 18:11:58,433 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-17 18:11:58,433 - torchtrader - INFO - Database created successfully
+2023-04-17 18:11:58,433 - torchtrader - INFO - Starting database test
+2023-04-17 18:31:49,543 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-17 18:31:49,543 - torchtrader - INFO - Database not found, creating it
+2023-04-17 18:31:49,549 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-17 18:31:49,549 - torchtrader - INFO - Database created successfully
+2023-04-17 18:31:49,549 - torchtrader - INFO - Starting database test
+2023-04-17 19:18:05,292 - torchtrader - INFO - Checking if database sqlite:///torchtrader.db exists
+2023-04-17 19:18:05,292 - torchtrader - INFO - Database not found, creating it
+2023-04-17 19:18:05,298 - torchtrader - INFO - Created new SQLite database: sqlite:///torchtrader.db
+2023-04-17 19:18:05,298 - torchtrader - INFO - Database created successfully
+2023-04-17 19:18:05,298 - torchtrader - INFO - Starting database test
+2023-04-17 19:18:05,311 - torchtrader - INFO - Adding bulk data to table test_binance-1h
+2023-04-17 19:18:05,322 - torchtrader - INFO - Data added to table test_binance-1h with primary keys [None, None]
+2023-04-17 19:18:05,322 - torchtrader - INFO - Adding bulk data to table test_yahoo-5m
+2023-04-17 19:18:05,327 - torchtrader - INFO - Data added to table test_yahoo-5m with primary keys [None, None]
+2023-04-17 19:18:05,327 - torchtrader - INFO - Test tables added successfully
+2023-04-17 19:18:05,327 - torchtrader - INFO - Removing table 'test_binance-1h' from the database
+2023-04-17 19:18:05,330 - torchtrader - INFO - Table 'test_binance-1h' removed successfully
+2023-04-17 19:18:05,330 - torchtrader - INFO - Removing table 'test_yahoo-5m' from the database
+2023-04-17 19:18:05,333 - torchtrader - INFO - Table 'test_yahoo-5m' removed successfully
+2023-04-17 19:18:05,334 - torchtrader - INFO - Test tables dropped successfully
+2023-04-17 19:18:05,334 - torchtrader - INFO - Finished database test
