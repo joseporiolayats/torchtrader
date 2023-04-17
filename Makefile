@@ -74,7 +74,7 @@ lint-ruff: ## ruff in linting mode
 #lint-mypy-report: ## run mypy & create report
 #	@mypy --config-file pyproject.toml . --html-report ./mypy_html 	--ignore-missing-imports --follow-imports=silent
 #
-#lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
+lint: lint-black lint-ruff ## run all linters
 
 ##@ Documentation
 
