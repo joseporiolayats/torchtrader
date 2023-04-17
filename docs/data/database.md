@@ -60,7 +60,7 @@ db = TorchtraderDatabase()
 db.connect_database()
 binance_table = db.create_table("binance", "1h", is_crypto=True)
 data = {
-    "datetime": datetime(2023, 4, 16, 12, 0, 0),
+    "date_time": datetime(2023, 4, 16, 12, 0, 0),
     "asset_id": "BTC",
     "base_currency": "BTC",
     "quote_currency": "USDT",
