@@ -1,372 +1,233 @@
 """
-This script provides a module for managing a SQLite database using SQLAlchemy ORM.
-The database is designed to store asset data from different exchanges and timeframes
-for use in the Torchtrader application.
-
-The main class, TorchtraderDatabase, is responsible for creating, connecting,
-and managing the database. It also provides methods for adding, updating, querying,
-and removing data from the tables.
-
-The ExchangeBase class is a base class for creating exchange-specific tables that
-inherit its attributes and methods.
+database.py
 """
-import os
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 from typing import Dict
+from typing import List
+from typing import Optional
 from typing import Type
-from typing import Union
 
-from sqlalchemy import Column
 from sqlalchemy import create_engine
 from sqlalchemy import DateTime
 from sqlalchemy import Float
+from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
+from sqlalchemy import select
 from sqlalchemy import String
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import text
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Session
 
 from torchtrader.logs.logger import app_logger
 
-Base = declarative_base()
-TIMEFRAMES = [
-    "1m",
-    "3m",
-    "5m",
-    "10m",
-    "15m",
-    "30m",
-    "1h",
-    "3h",
-    "6h",
-    "12h",
-    "1d",
-    "3d",
-    "5d",
-    "1w",
-    "2w",
-    "1M",
-    "3M",
-    "6M",
-    "1y",
-]
+
+class Base(DeclarativeBase):
+    _decl_class_registry = None
+    date_time = None
+    id: int
 
 
-class ExchangeBase(Base):
-    __abstract__ = True
-    id = Column(Integer, primary_key=True)
-    date_time = Column(DateTime, nullable=False)
-    asset_id = Column(String, nullable=False)
-    base_currency = Column(String, nullable=False)
-    quote_currency = Column(String, nullable=False)
-    open = Column(Float, nullable=False)
-    high = Column(Float, nullable=False)
-    low = Column(Float, nullable=False)
-    close = Column(Float, nullable=False)
-    volume = Column(Float, nullable=False)
+# Define Asset model
+class Asset(Base):
+    __tablename__ = "assets"
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True, autoincrement=True)
+    asset_id: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
+    base_currency: Mapped[str] = mapped_column(String(20), nullable=False)
+    quote_currency: Mapped[str] = mapped_column(String(20), nullable=False)
+    is_crypto: Mapped[int] = mapped_column(Integer(), nullable=False, default=1)
+    data_points = relationship("DataPoint", back_populates="asset")
 
 
+# Define DataPoint model
+class DataPoint(Base):
+    __tablename__ = "data_points"
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True, autoincrement=True)
+    asset_id: Mapped[int] = mapped_column(Integer(), ForeignKey("assets.id"), nullable=False)
+    date_time: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
+    open: Mapped[float] = mapped_column(Float(), nullable=False)
+    high: Mapped[float] = mapped_column(Float(), nullable=False)
+    low: Mapped[float] = mapped_column(Float(), nullable=False)
+    close: Mapped[float] = mapped_column(Float(), nullable=False)
+    volume: Mapped[float] = mapped_column(Float(), nullable=False)
+    asset = relationship("Asset", back_populates="data_points")
+
+
+# TorchtraderDatabase class to manage database operations
 class TorchtraderDatabase:
     """
-    TorchtraderDatabase is a class for managing the SQLite database.
-    It provides methods for creating, connecting, and managing the database
-    as well as adding, updating, querying, and removing data from the tables.
-    Attributes:
-        database_uri (str): The URI of the database.
-        db_session (Session): The database session object.
-        db_engine (Engine): The database engine object.
-
-    Usage:
-        database = TorchtraderDatabase()
-        database.connect_database()
-        database.test_db()
-        database.close_session()
+    Initialize the TorchtraderDatabase and create tables if they don't exist.
     """
 
-    def __init__(self, database_uri: str = "sqlite:///torchtrader.db"):
+    def __init__(self):
+        db_path = "torchtrader/data/torchtrader.db"
+        db_filename = "torchtrader.db"
+        self.database_uri = (
+            Path(db_path).absolute()
+            if Path(db_path).absolute().exists()
+            else Path(db_filename).absolute()
+        )
+        self.db_engine = create_engine(f"sqlite:///{self.database_uri}")
+        self.db_session = Session(self.db_engine)
+
+        app_logger.info("Database created successfully")
+
+        Base.metadata.create_all(bind=self.db_engine)
+
+    def add_asset(self, asset: Dict[str, Any]) -> int | None:
         """
-        Initializes a new TorchtraderDatabase object.
+        Add an asset to the database.
 
         Args:
-            database_uri (str): The URI of the database. Default is "sqlite:///torchtrader.db".
-        """
-        self.database_uri = database_uri
-        self.db_session = None
-        self.db_engine = None
-
-    @staticmethod
-    def create_table(exchange: str, timeframe: str, is_crypto: bool = True) -> Base:
-        """
-        Creates a new table class for the specified exchange and timeframe.
-
-        Args:
-            exchange (str): The name of the exchange.
-            timeframe (str): The timeframe for the data.
-            is_crypto (bool): Whether the asset is a cryptocurrency. Default is True.
+            asset (Dict[str, Any]): A dictionary containing the asset details.
 
         Returns:
-            Base: The newly created table class.
-
-        Raises:
-            AssertionError: If the specified timeframe is not in the list of allowed timeframes.
+            int: The ID of the added asset.
         """
-        assert (
-            timeframe in TIMEFRAMES
-        ), f"Invalid timeframe '{timeframe}'. Must be one of: {', '.join(TIMEFRAMES)}"
-        table_name = f"{exchange}-{timeframe}"
-        class_name = f"{exchange.capitalize()}_{timeframe.capitalize()}"
-        return type(
-            class_name,
-            (ExchangeBase,),
-            {
-                "__tablename__": table_name,
-                "is_crypto": Column(Integer, nullable=False, default=int(is_crypto)),
-            },
-        )
+        try:
+            new_asset = Asset(**asset)
+            self.db_session.add(new_asset)
+            self.db_session.commit()
+            app_logger.info(f"Asset added: {new_asset.asset_id}")
+            return new_asset.id
+        except Exception as e:
+            app_logger.error(f"Error adding asset: {e}")
+            self.db_session.rollback()
+            return None
 
-    def create_database(self, database_uri: str = "sqlite:///torchtrader.db") -> None:
+    def add_data_points(self, asset_id: int, data_points: List[Dict[str, Any]]) -> List[int]:
         """
-        Creates a new SQLite database.
+        Add data points to the database for a given asset.
 
         Args:
-            database_uri (str): The URI of the database. Default is "sqlite:///torchtrader.db".
-        """
-        self.db_engine = create_engine(database_uri)
-        session_factory = sessionmaker(bind=self.db_engine)
-        self.db_session = session_factory()
-        app_logger.info(f"Created new SQLite database: {database_uri}")
-
-    def check_and_create_db(self, database_uri="sqlite:///torchtrader.db") -> None:
-        """
-        Checks if the specified database exists, and if not, creates it.
-
-        Args:
-            database_uri (str): The URI of the database. Default is "sqlite:///torchtrader.db".
-        """
-        app_logger.info(f"Checking if database {database_uri} exists")
-        db_file_path = database_uri.split("///")[-1]
-
-        if os.path.isfile(db_file_path):
-            app_logger.info("Database already exists")
-            self.db_engine = create_engine(database_uri)
-            session_factory = sessionmaker(bind=self.db_engine)
-            self.db_session = session_factory()
-        else:
-            app_logger.info("Database not found, creating it")
-            self.create_database(database_uri)
-            app_logger.info("Database created successfully")
-
-    def add_data(
-        self, data: Union[Dict[str, any], Dict[str, Dict[str, any]]], table: Type[Base]
-    ) -> None:
-        """
-        Adds data to the specified table.
-
-        Args:
-            data (Union[Dict[str, any], Dict[str, Dict[str, any]]]): The data to be added.
-            table (Type[Base]): The table class where the data will be added.
-
-        Raises:
-            ValueError: If the data is not a dictionary or a dictionary of dictionaries.
-        """
-        if not isinstance(data, dict):
-            raise ValueError("Data must be a dictionary or a dictionary of " "dictionaries")
-        inserted_ids = []
-        if not all(isinstance(value, dict) for value in data.values()):
-            return self.add_single_datapoint(table, data, inserted_ids)
-        app_logger.info(f"Adding bulk data to table {table.__tablename__}")
-        for item in data.values():
-            new_entry = table(**item)
-            self.db_session.add(new_entry)
-            inserted_ids.append(new_entry.id)
-
-    def add_single_datapoint(self, table, data, inserted_ids) -> None:
-        """
-        Adds a single data point to the specified table.
-
-        Args:
-            table (Type[Base]): The table class where the data will be added.
-            data (Dict[str, any]): The data to be added.
-            inserted_ids (List[int]): The list of inserted primary key ids.
+            asset_id (int): The ID of the asset for which to add data points.
+            data_points (List[Dict[str, Any]]): A list of dictionaries containing data points.
 
         Returns:
-            List[int]: The list of inserted primary key ids.
+            List[int]: A list of IDs of the added data points.
         """
-        app_logger.info(f"Adding single data to table {table.__tablename__}")
-        new_entry = table(**data)
-        self.db_session.add(new_entry)
-        inserted_ids.append(new_entry.id)
-        self.db_session.commit()
-        app_logger.info(
-            f"Data added to table {table.__tablename__} with primary keys {inserted_ids}"
-        )
-        return inserted_ids
 
-    def test_db(self) -> None:
-        """
-        Tests the database by adding and removing sample data.
-        """
-        app_logger.info("Starting database test")
-        binance_table = self.create_table("test_binance", "1h", is_crypto=True)
-        yahoo_table = self.create_table("test_yahoo", "5m", is_crypto=False)
-        Base.metadata.create_all(self.db_engine)
-        data_bulk = {
-            "binance_data": {
-                "date_time": datetime(2023, 4, 16, 12, 0, 0),
-                "asset_id": "BTC",
-                "base_currency": "BTC",
-                "quote_currency": "USDT",
-                "open": 60000,
-                "high": 60500,
-                "low": 59500,
-                "close": 60100,
-                "volume": 1200,
-            },
-            "yahoo_data": {
-                "date_time": datetime(2023, 4, 16, 12, 0, 0),
-                "asset_id": "AAPL",
-                "base_currency": "AAPL",
-                "quote_currency": "USD",
-                "open": 150,
-                "high": 151,
-                "low": 148,
-                "close": 149,
-                "volume": 10000,
-            },
-        }
-        self.add_data(data_bulk, binance_table)
-        self.add_data(data_bulk, yahoo_table)
-        app_logger.info("Test tables added successfully")
-        self.remove_table(binance_table)
-        self.remove_table(yahoo_table)
-        app_logger.info("Test tables dropped successfully")
-        app_logger.info("Finished database test")
+        try:
+            new_data_points = [
+                DataPoint(asset_id=asset_id, **data_point) for data_point in data_points
+            ]
+            self.db_session.add_all(new_data_points)
+            self.db_session.commit()
+            app_logger.info(f"{len(new_data_points)} data points added for asset_id {asset_id}")
+            return [data_point.id for data_point in new_data_points]
+        except Exception as e:
+            app_logger.error(f"Error adding data points: {e}")
+            self.db_session.rollback()
+            return []
 
-    def remove_table(self, table: Type[Base]) -> None:
+    def query_data_points(self, asset_id: int, filters: Dict[str, Any] = None) -> List[DataPoint]:
         """
-        Removes the specified table from the database.
+        Query data points for a given asset with optional filters.
 
         Args:
-            table (Type[Base]): The table class to be removed.
-        """
-        app_logger.info(f"Removing table '{table.__tablename__}' from the database")
-        table.__table__.drop(self.db_engine)
-        app_logger.info(f"Table '{table.__tablename__}' removed successfully")
+            asset_id (int): The ID of the asset for which to query data points.
+            filters (Dict[str, Any], optional): A dictionary of filters to apply to the query.
+            Defaults to None.
 
-    def remove_data_in_range(
-        self, table: Type[Base], start_datetime: datetime, end_datetime: datetime
-    ) -> None:
+        Returns:
+            List[DataPoint]: A list of DataPoint objects matching the query.
         """
-        Removes data from the specified table within a given datetime range.
 
-        Args:
-            table (Type[Base]): The table class where data will be removed.
-            start_datetime (datetime): The start datetime of the range.
-            end_datetime (datetime): The end datetime of the range.
-        """
-        app_logger.info(
-            f"Removing data from table '{table.__tablename__}' between "
-            f"{start_datetime} and {end_datetime}"
-        )
-        self.db_session.query(table).filter(
-            table.datetime >= start_datetime, table.datetime <= end_datetime
-        ).delete()
-        self.db_session.commit()
-        app_logger.info(
-            f"Data removed successfully from table '{table.__tablename__}'"
-            f"between {start_datetime} and {end_datetime}"
-        )
+        try:
+            stmt = select(DataPoint).where(DataPoint.asset_id == asset_id)
 
-    def connect_database(self, database_uri: str = "sqlite:///torchtrader.db") -> None:
+            if filters:
+                for key, value in filters.items():
+                    stmt = stmt.where(getattr(DataPoint, key) == value)
+
+                with self.db_session as session:
+                    result = session.execute(stmt)
+                    data_points = result.scalars().all()
+                    app_logger.info(
+                        f"Queried {len(data_points)} data points for asset_id {asset_id}"
+                    )
+                    return [DataPoint(**dp.__dict__) for dp in data_points]
+
+        except Exception as e:
+            app_logger.error(f"Error querying data points: {e}")
+        return []
+
+    def get_asset(self, asset_id: str) -> Optional[Dict[str, Any]]:
         """
-        Connects to the specified database or creates it if it doesn't exist.
+        Get an asset by its asset_id.
 
         Args:
-            database_uri (str): The URI of the database. Default is "sqlite:///torchtrader.db".
+            asset_id (str): The asset_id of the asset to retrieve.
+
+        Returns:
+            Optional[Dict[str, Any]]:
+            A dictionary containing the asset details if found, None otherwise.
         """
-        app_logger.info(f"Connecting to database '{database_uri}'")
-        self.check_and_create_db(database_uri)
-        app_logger.info(f"Connected to database '{database_uri}' successfully")
+        try:
+            asset = self.get_single(Asset, {"asset_id": asset_id})
+            if asset:
+                app_logger.info(f"Retrieved asset: {asset_id}")
+            else:
+                app_logger.warning(f"Asset not found: {asset_id}")
+            return asset
+        except Exception as e:
+            app_logger.error(f"Error getting asset: {e}")
+            return None
 
     def close_session(self) -> None:
         """
-        Closes the current database session.
+        Close the database session.
         """
+
         self.db_session.close()
         app_logger.info("Database session closed")
 
-    def execute_sql(self, sql: str) -> None:
+    def get_single(self, Model: Type[Base], param: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """
-        Executes the specified SQL command.
+        Get a single record of a given model matching the provided parameters.
 
         Args:
-            sql (str): The SQL command to be executed.
-        """
-        self.db_session.execute(sql)
-        self.db_session.commit()
-        app_logger.info(f"Executed SQL command: {sql}")
-
-    def backup_database(self, backup_path: str) -> None:
-        """
-        Creates a backup of the database.
-
-        Args:
-            backup        backup_path (str): The path where the backup will be saved.
-        """
-        import shutil
-
-        shutil.copy2(self.database_uri.split("///")[-1], backup_path)
-        app_logger.info(f"Database backed up to {backup_path}")
-
-    def restore_database(self, backup_path: str) -> None:
-        """
-        Restores the database from the specified backup.
-
-        Args:
-            backup_path (str): The path of the backup file.
-        """
-        import shutil
-
-        shutil.copy2(backup_path, self.database_uri.split("///")[-1])
-        app_logger.info(f"Database restored from {backup_path}")
-
-    def query_data(self, table: Type[Base], filters: Dict[str, any] = None) -> None:
-        """
-        Queries data from the specified table with optional filters.
-
-        Args:
-            table (Type[Base]): The table class to query data from.
-            filters (Dict[str, any], optional): A dictionary of filters to apply. Default is None.
+            Model (Type[Base]): The SQLAlchemy model to query.
+            param (Dict[str, Any]): A dictionary of parameters to filter the query.
 
         Returns:
-            List[Base]: A list of rows matching the filters.
+            Optional[Dict[str, Any]]:
+            A dictionary containing the record details if found, None otherwise.
         """
-        query = self.db_session.query(table)
-        if filters:
-            for key, value in filters.items():
-                query = query.filter(getattr(table, key) == value)
-        return query.all()
+        try:
+            return self.db_session.query(Model).filter_by(**param).first()
+        except Exception as e:
+            app_logger.error(f"Error getting single record: {e}")
+            return None
 
-    def update_data(
-        self, table: Type[Base], filters: Dict[str, any], new_values: Dict[str, any]
-    ) -> None:
+    def run_query(self, query: str, params: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
-        Updates data in the specified table with the given filters and new values.
+        Executes an SQL query using SQLAlchemy and returns the result as a list of dictionaries.
 
         Args:
-            table (Type[Base]): The table class to update data in.
-            filters (Dict[str, any]): A dictionary of filters to apply.
-            new_values (Dict[str, any]): A dictionary of new values to update the data with.
+            query (str): SQL query string to execute.
+            params (Dict[str, Any], optional): Dictionary of parameters to be passed with the query.
+            Defaults to None.
+
+        Returns:
+            List[Dict[str, Any]]: List of dictionaries with the query result.
         """
-        self.db_session.query(table).filter_by(**filters).update(new_values)
-        self.db_session.commit()
-        app_logger.info(
-            f"Updated data in table {table.__tablename__} with filters {filters}"
-            f" and new values {new_values}"
-        )
+        try:
+            if params is None:
+                params = {}
+            query = text(query)
+            result_proxy = self.db_session.execute(query, params)
+            app_logger.info(f"Executed query: {query}")
+            return [dict(row) for row in result_proxy.fetchall()]
+        except Exception as e:
+            app_logger.error(f"Error executing query: {e}")
+            return []
 
 
 if __name__ == "__main__":
     database = TorchtraderDatabase()
-    database.connect_database()
-    database.test_db()
     database.close_session()
