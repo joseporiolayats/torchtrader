@@ -1,120 +1,88 @@
 import asyncio
+from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from datetime import datetime
+from typing import Any
 from typing import Dict
-from typing import Union
+from typing import List
+from typing import Optional
 
-import ccxt
-import ccxt.async_support as ccxt_async
-
-from torchtrader.logs.logger import app_logger
+import ccxt.async_support as ccxt
 
 
 @dataclass
 class OHLCV:
     timestamp: int
+    base: str
+    quote: str
     open: float
     high: float
     low: float
     close: float
     volume: float
+    timeframe: str
 
 
 class MarketData:
     def __init__(self, market: str):
         self.market = market.lower()
-        self.is_crypto = self._check_market_type()
-        self.exchange = self._initialize_exchange()
+        self.exchange = None
+        self.is_crypto = None
 
-    def _check_market_type(self) -> bool:
-        if self.market in ccxt.exchanges:
-            return True
-        else:
-            raise ValueError(f"Market '{self.market}' is not supported by ccxt")
-
-    def _initialize_exchange(self) -> Union[ccxt.Exchange, ccxt_async.Exchange]:
-        if self.is_crypto:
-            exchange_class = getattr(ccxt_async, self.market)
-        else:
-            exchange_class = getattr(ccxt, self.market)
-
-        return exchange_class()
-
-    async def get_historical_data(
-        self, symbol: str, timeframe: str, since: int = None, limit: int = None
-    ) -> Dict[str, OHLCV]:
-        app_logger.info(
-            f"Fetching historical data for {symbol} on {self.market} with timeframe {timeframe}"
-        )
+    @asynccontextmanager
+    async def setup_exchange(self):
+        if self.market not in ccxt.exchanges:
+            raise ValueError(f"Market '{self.market}' not supported by CCXT")
+        exchange_class = getattr(ccxt, self.market)
+        self.exchange = exchange_class({"enableRateLimit": True})
+        markets = await self.exchange.load_markets()
+        self.is_crypto = "BTC/USDT" in markets
         try:
-            ohlcv_data = await self.exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+            yield
+        finally:
             await self.exchange.close()
-            return {entry[0]: OHLCV(*entry) for entry in ohlcv_data}
-        except Exception as e:
-            app_logger.error(
-                f"Error fetching historical data for {symbol} on {self.market}: {str(e)}"
-            )
-            raise
 
-    async def close(self):
-        await self.exchange.close()
-
-    async def run(self, symbol: str, timeframe: str, since: int = None, limit: int = None):
-        data = await self.get_historical_data(symbol, timeframe, since, limit)
-        await self.close()
-        return data
-
-    async def get_historical_data_for_period(
-        self, symbol: str, timeframe: str, start_time: datetime, end_time: datetime
-    ) -> Dict[str, OHLCV]:
-        app_logger.info(
-            f"Fetching historical data for {symbol} on {self.market} with timeframe"
-            f" {timeframe} between {start_time} and {end_time}"
-        )
-
-        start_timestamp = int(start_time.timestamp() * 1000)
-        end_timestamp = int(end_time.timestamp() * 1000)
-        limit = 1000
-
-        ohlcv_data = {}
-        while start_timestamp <= end_timestamp:
-            try:
-                new_data = await self.exchange.fetch_ohlcv(
-                    symbol, timeframe, start_timestamp, limit
+    async def get_data(
+        self,
+        base: str,
+        quote: str,
+        timeframe: str,
+        start_time: Optional[str] = None,
+        end_time: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        async with self.setup_exchange():
+            symbol = f"{base}/{quote}"
+            since = self.exchange.parse8601(start_time) if start_time else None
+            if end_time:
+                limit = int(
+                    (self.exchange.parse8601(end_time) - since)
+                    / self.exchange.parse_timeframe(timeframe)
                 )
-                if not new_data:
-                    break
+            else:
+                limit = 1000
 
-                for entry in new_data:
-                    ohlcv_data[entry[0]] = OHLCV(*entry)
-                await self.exchange.close()
-                start_timestamp = new_data[-1][0] + self.exchange.parse_timeframe(timeframe) * 1000
+            data = await self.exchange.fetch_ohlcv(symbol, timeframe, since, limit)
+            return self.process_data(data, base, quote, timeframe)
 
-            except Exception as e:
-                app_logger.error(
-                    f"Error fetching historical data for {symbol} on {self.market}: {str(e)}"
-                )
-                raise
+    async def get_live_data(
+        self, base: str, quote: str, timeframe: str, stop_event: asyncio.Event
+    ) -> list[dict[str, Any]]:
+        async with self.setup_exchange():
+            symbol = f"{base}/{quote}"
 
-        app_logger.info(
-            f"Fetched historical data for {symbol} on {self.market} with timeframe "
-            f"{timeframe} between {start_time} and {end_time}"
-        )
-        return ohlcv_data
+            while not stop_event.is_set():
+                data = await self.exchange.fetch_ohlcv(symbol, timeframe, limit=1)
+                return self.process_data(data, base, quote, timeframe)
 
-
-async def main():
-    market = "binance"
-    symbol = "BTC/USDT"
-    timeframe = "1h"
-    start_time = datetime(2021, 1, 1)
-    end_time = datetime(2021, 1, 31)
-
-    market_data = MarketData(market)
-    await market_data.get_historical_data_for_period(symbol, timeframe, start_time, end_time)
-
-    # Use ohlcv_data with the TorchtraderDatabase class here
+    @staticmethod
+    def process_data(
+        data: List[List[float]], base: str, quote: str, timeframe: str
+    ) -> List[Dict[str, Any]]:
+        processed_data = []
+        for entry in data:
+            timestamp, open_, high, low, close, volume = entry
+            ohlcv = OHLCV(timestamp, base, quote, open_, high, low, close, volume, timeframe)
+            processed_data.append(ohlcv.__dict__)
+        return processed_data
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# %%
