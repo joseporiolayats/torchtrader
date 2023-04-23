@@ -1,81 +1,156 @@
-# Database
-This class provides a convenient interface for managing a database to store asset price data from different exchanges and timeframes. It utilizes SQLAlchemy as the ORM and SQLite as the default database. Users can create tables for specific exchanges and timeframes, add or update data, query data, and perform basic database management tasks such as backing up and restoring the database.
 
-Here's a high-level overview of the `TorchtraderDatabase` class:
+# **Torchtrader Database Module Documentation**
 
+The `database.py` module is responsible for managing database operations for Torchtrader. It defines two models, `Asset` and `DataPoint`, and a `TorchtraderDatabase` class to manage database operations.
+
+
+## **Flowchart**
+
+The following flowchart illustrates the flow of data in the `database.py` module:
 
 
 ```mermaid
-classDiagram
-    class TorchtraderDatabase{
-        +create_table(exchange, timeframe, is_crypto) : Base
-        +create_database(database_uri) : None
-        +check_and_create_db(database_uri) : None
-        +add_data(data, table) : None
-        +add_single_datapoint(table, data, inserted_ids) : None
-        +test_db() : None
-        +remove_table(table) : None
-        +remove_data_in_range(table, start_datetime, end_datetime) : None
-        +connect_database(database_uri) : None
-        +close_session() : None
-        +execute_sql(sql) : None
-        +backup_database(backup_path) : None
-        +restore_database(backup_path) : None
-        +query_data(table, filters) : List[Base]
-        +update_data(table, filters, new_values) : None
-    }
+graph TD
+    A[Asset or DataPoint object] -->
+    B[TorchtraderDatabase class]
+    B -->
+    C[SQLite database]
 ```
 
 
-The `TorchtraderDatabase` class offers the following methods:
+
+## **Models**
+
+
+### **Asset**
+
+The `Asset` model represents an asset in the database. It has the following attributes:
 
 
 
-* `create_table`: Creates a new table for the specified exchange and timeframe.
-* `create_database`: Creates a new SQLite database at the specified URI.
-* `check_and_create_db`: Checks if the database exists and creates it if necessary.
-* `add_data`: Adds new data to the specified table. It can handle both single datapoints and bulk data.
-* `add_single_datapoint`: Adds a single data entry to the specified table.
-* `test_db`: Runs a series of tests on the database, including creating and removing test tables.
-* `remove_table`: Removes the specified table from the database.
-* `remove_data_in_range`: Removes data from the specified table within a given datetime range.
-* `connect_database`: Connects to the specified database or creates it if it doesn't exist.
-* `close_session`: Closes the current database session.
-* `execute_sql`: Executes the specified SQL command.
-* `backup_database`: Creates a backup of the database at the specified path.
-* `restore_database`: Restores the database from the specified backup path.
-* `query_data`: Queries data from the specified table with optional filters.
-* `update_data`: Updates data in the specified table with the given filters and new values.
+* `id`: Integer primary key autoincremented.
+* `asset_id`: String of maximum length 20, not nullable, and unique.
+* `base_currency`: String of maximum length 20, not nullable.
+* `quote_currency`: String of maximum length 20, not nullable.
+* `is_crypto`: Integer of 0 or 1, not nullable, default 1.
+* `data_points`: Relationship with `DataPoint` model.
 
-To use this class, you have to create an instance of `TorchtraderDatabase` and call the desired
-methods. For example, to create a new database and add some data to a table:
+
+### **DataPoint**
+
+The `DataPoint` model represents a data point for an asset in the database. It has the following attributes:
 
 
 
+* `id`: Integer primary key autoincremented.
+* `asset_id`: Integer foreign key to `Asset` model, not nullable.
+* `date_time`: DateTime not nullable.
+* `open`: Float not nullable.
+* `high`: Float not nullable.
+* `low`: Float not nullable.
+* `close`: Float not nullable.
+* `volume`: Float not nullable.
+* `asset`: Relationship with `Asset` model.
 
-```python
-from torchtrader.database import TorchtraderDatabase
 
-db = TorchtraderDatabase()
-db.connect_database()
-binance_table = db.create_table("binance", "1h", is_crypto=True)
-data = {
-    "date_time": datetime(2023, 4, 16, 12, 0, 0),
-    "asset_id": "BTC",
-    "base_currency": "BTC",
-    "quote_currency": "USDT",
-    "open": 60000,
-    "high": 60500,
-    "low": 59500,
-    "close": 60100,
-    "volume": 1200,
-}
-db.add_data(data, binance_table)
-db.close_session()
+## **TorchtraderDatabase class**
+
+The `TorchtraderDatabase` class is responsible for managing database operations. It has the following methods:
+
+
+```
+__init__()
 ```
 
 
-In this example, we create a new `TorchtraderDatabase` instance, connect to the database, create a table for Binance 1-hour data, add a data entry to the table, and then close the session
+Initializes the `TorchtraderDatabase` class and creates tables if they don't exist.
 
 
-::: torchtrader.data.database
+```
+add_asset(asset: Dict[str, Any]) -> int | None
+```
+
+
+Adds an asset to the database.
+
+Args:
+
+
+
+* `asset` (Dict[str, Any]): A dictionary containing the asset details.
+
+Returns:
+
+
+
+* `int`: The ID of the added asset if successful, `None` otherwise.
+
+
+```
+add_data_points(asset_id: int, data_points: List[Dict[str, Any]]) -> List[int]
+```
+
+
+Adds data points to the database for a given asset.
+
+Args:
+
+
+
+* `asset_id` (int): The ID of the asset for which to add data points.
+* `data_points` (List[Dict[str, Any]]): A list of dictionaries containing data points.
+
+Returns:
+
+
+
+* `List[int]`: A list of IDs of the added data points.
+
+
+```
+query_data_points(asset_id: int, filters: Dict[str, Any] = None) -> List[DataPoint]
+```
+
+
+Query data points for a given asset with optional filters.
+
+Args:
+
+
+
+* `asset_id` (int): The ID of the asset for which to query data points.
+* `filters` (Dict[str, Any], optional): A dictionary of filters to apply to the query. Defaults to `None`.
+
+Returns:
+
+
+
+* `List[DataPoint]`: A list of `DataPoint` objects matching the query.
+
+
+```
+get_asset(asset_id: str) -> Optional[Dict[str, Any]]
+```
+
+
+Gets an asset by its asset_id.
+
+Args:
+
+
+
+* `asset_id` (str): The asset_id of the asset to retrieve.
+
+Returns:
+
+
+
+* `Optional[Dict[str, Any]]`: A dictionary containing the asset details if found, `None` otherwise.
+
+
+```
+close_session() -> None
+```
+
+
+Closes the database session
