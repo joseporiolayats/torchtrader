@@ -1,3 +1,6 @@
+"""
+torchtrader/data/collection.py
+"""
 import asyncio
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
@@ -83,6 +86,3 @@ class MarketData:
             ohlcv = OHLCV(timestamp, base, quote, open_, high, low, close, volume, timeframe)
             processed_data.append(ohlcv.__dict__)
         return processed_data
-
-
-# %%
