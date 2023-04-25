@@ -4,6 +4,8 @@ This module contains various utility functions for the torchtrader app.
 Functions: - timeframe_to_seconds(timeframe: str) -> int: Convert a timeframe string into the
 number of seconds it represents."""
 import datetime
+import os
+from pathlib import Path
 from typing import Dict
 
 # A dictionary that maps each time unit to the number of seconds in that unit
@@ -61,3 +63,30 @@ def generate_name(prefix: str) -> str:
     timestamp_str = now.strftime("%Y%m%dT%H%M%SZ")
 
     return f"{prefix}_{timestamp_str}"
+
+
+def find_file(filename: str) -> Path:
+    # Check if file exists in current directory
+    current_dir = Path.cwd()
+    file_path = current_dir / filename
+    if file_path.is_file():
+        return file_path.resolve()
+
+    # Check if file exists in parent directory
+    parent_dir = current_dir.parent
+    file_path = parent_dir / filename
+    if file_path.is_file():
+        return file_path.resolve()
+
+    # Check all subdirectories in parent directory
+    for root, dirs, files in os.walk(parent_dir):
+        if filename in files:
+            return (Path(root) / filename).resolve()
+
+
+def find_dir(dirname: str) -> Path:
+    current_dir = Path.cwd()
+    parent_dir = current_dir.parent
+    for root, dirs, _ in os.walk(parent_dir):
+        if dirname in dirs:
+            return (Path(root) / dirname).resolve()
