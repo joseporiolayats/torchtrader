@@ -1,91 +1,121 @@
-from datetime import datetime
+import os
 
 import pytest
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
-from torchtrader.data.database import ExchangeBase
-from torchtrader.data.database import TorchtraderDatabase
+from torchtrader.data.ops_specific import Operations
+from torchtrader.data.schema import Base
 
-
-@pytest.fixture(scope="module")
-def database():
-    db = TorchtraderDatabase()
-    db.connect_database()
-    yield db
-    db.close_session()
+DB_PATH = "test.db"
+DB_URI = f"sqlite:///{DB_PATH}"
 
 
-@pytest.fixture(scope="module")
-def table(database):
-    table_class = database.create_table("test_binance", "1h", is_crypto=True)
-    ExchangeBase.metadata.create_all(database.db_engine)
-    yield table_class
-    table_class.__table__.drop(database.db_engine)
+@pytest.fixture
+def test_db():
+    # Setup
+    test_engine = create_engine(DB_URI)
+    Base.metadata.create_all(test_engine)
+    test_session = Session(test_engine)
+
+    yield test_session
+
+    # Teardown
+    test_session.close()
+    os.remove(DB_PATH)
 
 
-def test_create_table(database):
-    """
-    Test creating a table class for a specified exchange and timeframe.
-    """
-    table_class = database.create_table("test_exchange", "1h", is_crypto=True)
-    assert table_class.__tablename__ == "test_exchange-1h"
+def test_operations(test_db):
+    ops = Operations()
 
+    # Create an exchange
+    exchange_data = {"name": "Example Exchange"}
+    exchange_id = ops.create_exchange(exchange_data)
+    assert exchange_id > 0
 
-def test_add_data(database, table):
-    """
-    Test adding data to a table.
-    """
-    data = {
-        "date_time": datetime(2023, 4, 16, 12, 0, 0),
-        "asset_id": "BTC",
-        "base_currency": "BTC",
-        "quote_currency": "USDT",
-        "open": 60000,
-        "high": 60500,
-        "low": 59500,
-        "close": 60100,
-        "volume": 1200,
+    # Read exchanges
+    exchanges = ops.read_exchange()
+    assert len(exchanges) == 1
+
+    # Update an exchange
+    exchange_update_data = {"name": "Updated Example Exchange"}
+    ops.update_exchange(exchange_data, exchange_update_data)
+    updated_exchange = ops.read_exchange(filters=exchange_update_data)
+    assert updated_exchange[0].name == "Updated Example Exchange"
+
+    # Create a trading product
+    trading_product_data = {
+        "name": "Example Trading Product",
+        "product_type": "Cryptocurrency",
+        "ticker": "EXC",
     }
-    database.add_data(data, table)
-    assert database.db_session.query(table).count() == 1
+    trading_product_id = ops.create_trading_product(trading_product_data)
+    assert trading_product_id is not None
 
+    # Read trading products
+    trading_products = ops.read_trading_product()
+    assert len(trading_products) == 1
 
-def test_query_data(database, table):
-    """
-    Test querying data from a table.
-    """
-    data = {
-        "date_time": datetime(2023, 4, 16, 12, 0, 0),
-        "asset_id": "BTC",
+    # Update a trading product
+    trading_product_update_data = {"name": "Updated Example Trading Product"}
+    ops.update_trading_product(trading_product_data, trading_product_update_data)
+    updated_trading_product = ops.read_trading_product(filters=trading_product_update_data)
+    assert updated_trading_product[0].name == "Updated Example Trading Product"
+
+    # Create a trading product exchange relationship
+    trading_product_exchange_data = {
+        "exchange_id": exchange_id,
+        "trading_product_id": trading_product_id,
     }
-    result = database.query_data(table, filters=data)
-    assert len(result) == 1
-    assert result[0].open == 60000
-    assert result[0].high == 60500
-    assert result[0].low == 59500
-    assert result[0].close == 60100
-    assert result[0].volume == 1200
+    trading_product_exchange_id = ops.create_trading_product_exchange(trading_product_exchange_data)
+    assert trading_product_exchange_id > 0
+    # Read trading product exchange relationships
+    trading_product_exchanges = ops.read_trading_product_exchange()
+    assert len(trading_product_exchanges) == 1
 
-
-def test_update_data(database, table):
-    """
-    Test updating data in a table.
-    """
-    filters = {
-        "date_time": datetime(2023, 4, 16, 12, 0, 0),
-        "asset_id": "BTC",
+    # Create an asset
+    asset_data = {
+        "name": "Example Asset",
+        "base_currency": "USD",
+        "quote_currency": "EXMP",
+        "trading_product_id": trading_product_id,
+        "exchange_id": exchange_id,
     }
-    new_values = {"high": 61000, "low": 59000}
-    database.update_data(table, filters, new_values)
-    updated_data = database.query_data(table, filters=filters)
-    assert updated_data[0].high == 61000
-    assert updated_data[0].low == 59000
+    asset_id = ops.create_asset(asset_data)
+    assert asset_id is not None
+
+    # Read assets
+    assets = ops.read_asset()
+    assert len(assets) == 1
+
+    # Update an asset
+    asset_updates = {"name": "Updated Example Asset"}
+    ops.update_asset({"id": asset_id}, asset_updates)
+    updated_assets = ops.read_asset(filters=asset_updates)
+    assert len(updated_assets) == 1
+    assert updated_assets[0].name == "Updated Example Asset"
+
+    # Delete an asset
+    ops.delete_asset({"id": asset_id})
+    remaining_assets = ops.read_asset()
+    assert len(remaining_assets) == 0
+
+    # Delete a trading product exchange relationship
+    ops.delete_trading_product_exchange(trading_product_exchange_data)
+    remaining_trading_product_exchanges = ops.read_trading_product_exchange()
+    assert len(remaining_trading_product_exchanges) == 0
+
+    # Delete a trading product
+    ops.delete_trading_product(trading_product_update_data)
+    remaining_trading_products = ops.read_trading_product()
+    assert len(remaining_trading_products) == 0
+
+    # Delete an exchange
+    ops.delete_exchange(exchange_update_data)
+    remaining_exchanges = ops.read_exchange()
+    assert len(remaining_exchanges) == 0
 
 
-def test_remove_data_in_range(database, table):
-    """
-    Test removing data from a table within a given datetime range.
-    """
-    start_datetime = datetime(2023, 4, 16, 11, 0, 0)
-    end_datetime = datetime(2023, 4, 16, 13, 0, 0)
-    database.remove_data_in_range(table, start_datetime, end_datetime)
-    assert database.db_session.query(table).count() == 0
+# Run pytest
+if __name__ == "__main__":
+    pytest.main(["-v"])
