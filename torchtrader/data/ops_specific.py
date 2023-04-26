@@ -5,7 +5,7 @@ from typing import Any
 from typing import Dict
 from typing import Type
 
-from torchtrader.data.database import TorchtraderDatabase
+from torchtrader.data.database import GenericDatabase
 from torchtrader.data.schema import Asset
 from torchtrader.data.schema import Base
 from torchtrader.data.schema import Exchange
@@ -13,60 +13,56 @@ from torchtrader.data.schema import TradingProduct
 from torchtrader.data.schema import TradingProductExchange
 
 
-class OpsSpecific(TorchtraderDatabase):
+class OpsSpecific(GenericDatabase):
     def __init__(self):
         super().__init__()
 
-    # Exchange operations
     def create_exchange(self, data: Dict[str, Any]) -> int | None:
-        return self.create_table(Exchange, data)
+        return self.create(Exchange, data)
 
     def read_exchange(self, filters: Dict[str, Any] = None) -> list[Type[Base]]:
-        return self.read_table(Exchange, filters)
+        return self.read(Exchange, filters)
 
     def update_exchange(self, record: Dict[str, Any], updates: Dict[str, Any]) -> None:
-        self.update_table(Exchange, record, updates)
+        self.update(Exchange, record, updates)
 
     def delete_exchange(self, data: Dict[str, Any]) -> None:
-        self.delete_table(Exchange, data)
+        self.delete(Exchange, data)
 
-    # Trading product operations
     def create_trading_product(self, data: Dict[str, Any]) -> int:
-        return self.create_table(TradingProduct, data)
+        return self.create(TradingProduct, data)
 
     def read_trading_product(self, filters: Dict[str, Any] = None) -> list[Type[Base]]:
-        return self.read_table(TradingProduct, filters)
+        return self.read(TradingProduct, filters)
 
     def update_trading_product(self, record: Dict[str, Any], updates: Dict[str, Any]) -> None:
-        self.update_table(TradingProduct, record, updates)
+        self.update(TradingProduct, record, updates)
 
     def delete_trading_product(self, data: Dict[str, Any]) -> None:
-        self.delete_table(TradingProduct, data)
+        self.delete(TradingProduct, data)
 
-    # Asset operations
     def create_asset(self, data: Dict[str, Any]) -> int:
-        return self.create_table(Asset, data)
+        return self.create(Asset, data)
 
     def read_asset(self, filters: Dict[str, Any] = None) -> list[Type[Base]]:
-        return self.read_table(Asset, filters)
+        return self.read(Asset, filters)
 
     def update_asset(self, record: Dict[str, Any], updates: Dict[str, Any]) -> None:
-        self.update_table(Asset, record, updates)
+        self.update(Asset, record, updates)
 
     def delete_asset(self, data: Dict[str, Any]) -> None:
-        self.delete_table(Asset, data)
+        self.delete(Asset, data)
 
-    # Trading product exchange relationship operations
     def create_trading_product_exchange(self, data: Dict[str, Any]) -> int:
-        return self.create_table(TradingProductExchange, data)
+        return self.create(TradingProductExchange, data)
 
     def read_trading_product_exchange(self, filters: Dict[str, Any] = None) -> list[Type[Base]]:
-        return self.read_table(TradingProductExchange, filters)
+        return self.read(TradingProductExchange, filters)
 
     def update_trading_product_exchange(
         self, record: Dict[str, Any], updates: Dict[str, Any]
     ) -> None:
-        self.update_table(TradingProductExchange, record, updates)
+        self.update(TradingProductExchange, record, updates)
 
     def delete_trading_product_exchange(self, data: Dict[str, Any]) -> None:
-        self.delete_table(TradingProductExchange, data)
+        self.delete(TradingProductExchange, data)
