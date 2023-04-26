@@ -1,7 +1,7 @@
-from torchtrader.data.ops_specific import OpsSpecific
+from torchtrader.data.ops_specific import Operations
 
-# Initialize OpsSpecific class
-ops = OpsSpecific()
+# Initialize Operations class
+ops = Operations()
 
 # Create an exchange
 exchange_data = {
