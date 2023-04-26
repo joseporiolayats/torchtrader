@@ -1,15 +1,18 @@
 """
+torchtrader/logs/logger.py
+
 Torchtrader Logging Module
 
 This module sets up loggers for different parts of the Torchtrader app. The loggers can
 be imported and used in other modules to log messages with different levels of severity.
 """
 import logging
+import pathlib
 
 import colorlog
 
 
-def setup_logger(logger_name, log_file, level=logging.INFO):
+def setup_logger(logger_name: str, log_file: str, level: int = logging.INFO) -> logging.Logger:
     """
     Set up a logger with the specified name, log file, and log level.
 
@@ -21,6 +24,16 @@ def setup_logger(logger_name, log_file, level=logging.INFO):
     Returns:
         logging.Logger: The configured logger instance.
     """
+
+    # Get the absolute path of the 'torchtrader' folder
+    base_dir = pathlib.Path(__file__).resolve().parent.parent.parent
+
+    # Create the 'logs' folder if it does not exist
+    logs_dir = base_dir / "logs"
+    logs_dir.mkdir(exist_ok=True)
+
+    # Get the absolute path of the log file
+    log_file_path = logs_dir / log_file
 
     # Define log colors based on severity
     log_colors = {
@@ -35,7 +48,7 @@ def setup_logger(logger_name, log_file, level=logging.INFO):
     logger.setLevel(level)
 
     # Create a file handler
-    file_handler = logging.FileHandler(log_file)
+    file_handler = logging.FileHandler(log_file_path)
     file_handler.setLevel(level)
 
     # Create a console handler
