@@ -42,35 +42,23 @@ class GenericDatabase:
         return default_location
 
     def create(self, tableclass: Type[Base], data: Dict[str, Any]) -> int | None:
-        # sourcery skip: extract-duplicate-method, use-named-expression
         try:
-            # Check if the record with the same data already exists in the database
-            exists = (
-                self.db_session.query(tableclass)
-                .filter(
-                    and_(
-                        *[
-                            getattr(tableclass, key) == value
-                            for key, value in data.items()
-                            if value is not None
-                        ]
-                    )
-                )
-                .first()
-            )
+            filter_dict = {k: v for k, v in data.items() if k != "id"}
+            existing_record = self.db_session.query(tableclass).filter_by(**filter_dict).first()
 
-            if exists:
+            if existing_record is not None:
                 app_logger.warning(
-                    f"{tableclass.__name__} with data {data} " f"already exists. Skipping creation."
+                    f"A record with the same data already exists "
+                    f"in {tableclass.__name__}. Skipping."
                 )
-                return None
+                return existing_record.id
 
             record = tableclass(**data)
             self.db_session.add(record)
             self.db_session.commit()
             app_logger.info(f"Created {tableclass.__name__} with data: {data}")
             return record.id
-        except (IntegrityError, FlushError) as e:
+        except IntegrityError as e:
             app_logger.error(f"Error creating {tableclass.__name__}: {e}")
             self.db_session.rollback()
             return -1
