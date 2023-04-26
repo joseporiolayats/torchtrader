@@ -13,7 +13,7 @@ from torchtrader.data.schema import TradingProduct
 from torchtrader.data.schema import TradingProductExchange
 
 
-class OpsSpecific(GenericDatabase):
+class Operations(GenericDatabase):
     def __init__(self):
         super().__init__()
 
