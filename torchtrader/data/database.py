@@ -1,233 +1,156 @@
 """
-database.py
+torchtrader/data/database.py
 """
-from datetime import datetime
-from pathlib import Path
 from typing import Any
 from typing import Dict
 from typing import List
-from typing import Optional
 from typing import Type
 
+from sqlalchemy import and_
 from sqlalchemy import create_engine
-from sqlalchemy import DateTime
-from sqlalchemy import Float
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import select
-from sqlalchemy import String
-from sqlalchemy import text
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.exc import FlushError
 
+from torchtrader.data.schema import Base
 from torchtrader.logs.logger import app_logger
+from torchtrader.utils import find_dir
+from torchtrader.utils import find_file
 
 
-class Base(DeclarativeBase):
-    _decl_class_registry = None
-    date_time = None
-    id: int
+class GenericDatabase:
+    def __init__(self, db_path: str = None):
+        db_path = "torchtrader/data/torchtrader.db" if db_path is None else db_path
+        self.db_filename = db_path.split("/")[-1]
 
+        self.database_uri = self.locate_or_create_db()
 
-# Define Asset model
-class Asset(Base):
-    __tablename__ = "assets"
-    id: Mapped[int] = mapped_column(Integer(), primary_key=True, autoincrement=True)
-    asset_id: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
-    base_currency: Mapped[str] = mapped_column(String(20), nullable=False)
-    quote_currency: Mapped[str] = mapped_column(String(20), nullable=False)
-    is_crypto: Mapped[int] = mapped_column(Integer(), nullable=False, default=1)
-    data_points = relationship("DataPoint", back_populates="asset")
-
-
-# Define DataPoint model
-class DataPoint(Base):
-    __tablename__ = "data_points"
-    id: Mapped[int] = mapped_column(Integer(), primary_key=True, autoincrement=True)
-    asset_id: Mapped[int] = mapped_column(Integer(), ForeignKey("assets.id"), nullable=False)
-    date_time: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
-    open: Mapped[float] = mapped_column(Float(), nullable=False)
-    high: Mapped[float] = mapped_column(Float(), nullable=False)
-    low: Mapped[float] = mapped_column(Float(), nullable=False)
-    close: Mapped[float] = mapped_column(Float(), nullable=False)
-    volume: Mapped[float] = mapped_column(Float(), nullable=False)
-    asset = relationship("Asset", back_populates="data_points")
-
-
-# TorchtraderDatabase class to manage database operations
-class TorchtraderDatabase:
-    """
-    Initialize the TorchtraderDatabase and create tables if they don't exist.
-    """
-
-    def __init__(self):
-        db_path = "torchtrader/data/torchtrader.db"
-        db_filename = "torchtrader.db"
-        self.database_uri = (
-            Path(db_path).absolute()
-            if Path(db_path).absolute().exists()
-            else Path(db_filename).absolute()
-        )
         self.db_engine = create_engine(f"sqlite:///{self.database_uri}")
         self.db_session = Session(self.db_engine)
 
-        app_logger.info("Database created successfully")
+        app_logger.info("Database connected successfully.")
 
         Base.metadata.create_all(bind=self.db_engine)
 
-    def add_asset(self, asset: Dict[str, Any]) -> int | None:
-        """
-        Add an asset to the database.
+    def locate_or_create_db(self):
+        locate = find_file(self.db_filename)
+        if locate is not None:
+            app_logger.info(f"Database found in {locate}")
+            return locate
+        default_location = find_dir("data") / self.db_filename
+        app_logger.info(f"Database created successfully in {default_location}")
+        return default_location
 
-        Args:
-            asset (Dict[str, Any]): A dictionary containing the asset details.
-
-        Returns:
-            int: The ID of the added asset.
-        """
+    def create(self, tableclass: Type[Base], data: Dict[str, Any]) -> int | None:
+        # sourcery skip: extract-duplicate-method, use-named-expression
         try:
-            new_asset = Asset(**asset)
-            self.db_session.add(new_asset)
+            # Check if the record with the same data already exists in the database
+            exists = (
+                self.db_session.query(tableclass)
+                .filter(
+                    and_(
+                        *[
+                            getattr(tableclass, key) == value
+                            for key, value in data.items()
+                            if value is not None
+                        ]
+                    )
+                )
+                .first()
+            )
+
+            if exists:
+                app_logger.warning(
+                    f"{tableclass.__name__} with data {data} " f"already exists. Skipping creation."
+                )
+                return None
+
+            record = tableclass(**data)
+            self.db_session.add(record)
             self.db_session.commit()
-            app_logger.info(f"Asset added: {new_asset.asset_id}")
-            return new_asset.id
+            app_logger.info(f"Created {tableclass.__name__} with data: {data}")
+            return record.id
+        except (IntegrityError, FlushError) as e:
+            app_logger.error(f"Error creating {tableclass.__name__}: {e}")
+            self.db_session.rollback()
+            return -1
         except Exception as e:
-            app_logger.error(f"Error adding asset: {e}")
+            app_logger.error(f"Unexpected error creating {tableclass.__name__}: {e}")
             self.db_session.rollback()
             return None
 
-    def add_data_points(self, asset_id: int, data_points: List[Dict[str, Any]]) -> List[int]:
-        """
-        Add data points to the database for a given asset.
-
-        Args:
-            asset_id (int): The ID of the asset for which to add data points.
-            data_points (List[Dict[str, Any]]): A list of dictionaries containing data points.
-
-        Returns:
-            List[int]: A list of IDs of the added data points.
-        """
-
+    def read(self, tableclass: Type[Base], filters: Dict[str, Any] = None) -> List[Type[Base]]:
         try:
-            new_data_points = [
-                DataPoint(asset_id=asset_id, **data_point) for data_point in data_points
-            ]
-            self.db_session.add_all(new_data_points)
-            self.db_session.commit()
-            app_logger.info(f"{len(new_data_points)} data points added for asset_id {asset_id}")
-            return [data_point.id for data_point in new_data_points]
-        except Exception as e:
-            app_logger.error(f"Error adding data points: {e}")
-            self.db_session.rollback()
-            return []
-
-    def query_data_points(self, asset_id: int, filters: Dict[str, Any] = None) -> List[DataPoint]:
-        """
-        Query data points for a given asset with optional filters.
-
-        Args:
-            asset_id (int): The ID of the asset for which to query data points.
-            filters (Dict[str, Any], optional): A dictionary of filters to apply to the query.
-            Defaults to None.
-
-        Returns:
-            List[DataPoint]: A list of DataPoint objects matching the query.
-        """
-
-        try:
-            stmt = select(DataPoint).where(DataPoint.asset_id == asset_id)
+            query = self.db_session.query(tableclass)
 
             if filters:
-                for key, value in filters.items():
-                    stmt = stmt.where(getattr(DataPoint, key) == value)
+                query = query.filter_by(**filters)
 
-                with self.db_session as session:
-                    result = session.execute(stmt)
-                    data_points = result.scalars().all()
-                    app_logger.info(
-                        f"Queried {len(data_points)} data points for asset_id {asset_id}"
-                    )
-                    return [DataPoint(**dp.__dict__) for dp in data_points]
-
+            records = query.all()
+            app_logger.info(f"Read {len(records)} records from {tableclass.__name__}")
+            return records
         except Exception as e:
-            app_logger.error(f"Error querying data points: {e}")
-        return []
-
-    def get_asset(self, asset_id: str) -> Optional[Dict[str, Any]]:
-        """
-        Get an asset by its asset_id.
-
-        Args:
-            asset_id (str): The asset_id of the asset to retrieve.
-
-        Returns:
-            Optional[Dict[str, Any]]:
-            A dictionary containing the asset details if found, None otherwise.
-        """
-        try:
-            asset = self.get_single(Asset, {"asset_id": asset_id})
-            if asset:
-                app_logger.info(f"Retrieved asset: {asset_id}")
-            else:
-                app_logger.warning(f"Asset not found: {asset_id}")
-            return asset
-        except Exception as e:
-            app_logger.error(f"Error getting asset: {e}")
-            return None
-
-    def close_session(self) -> None:
-        """
-        Close the database session.
-        """
-
-        self.db_session.close()
-        app_logger.info("Database session closed")
-
-    def get_single(self, Model: Type[Base], param: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """
-        Get a single record of a given model matching the provided parameters.
-
-        Args:
-            Model (Type[Base]): The SQLAlchemy model to query.
-            param (Dict[str, Any]): A dictionary of parameters to filter the query.
-
-        Returns:
-            Optional[Dict[str, Any]]:
-            A dictionary containing the record details if found, None otherwise.
-        """
-        try:
-            return self.db_session.query(Model).filter_by(**param).first()
-        except Exception as e:
-            app_logger.error(f"Error getting single record: {e}")
-            return None
-
-    def run_query(self, query: str, params: Dict[str, Any] = None) -> List[Dict[str, Any]]:
-        """
-        Executes an SQL query using SQLAlchemy and returns the result as a list of dictionaries.
-
-        Args:
-            query (str): SQL query string to execute.
-            params (Dict[str, Any], optional): Dictionary of parameters to be passed with the query.
-            Defaults to None.
-
-        Returns:
-            List[Dict[str, Any]]: List of dictionaries with the query result.
-        """
-        try:
-            if params is None:
-                params = {}
-            query = text(query)
-            result_proxy = self.db_session.execute(query, params)
-            app_logger.info(f"Executed query: {query}")
-            return [dict(row) for row in result_proxy.fetchall()]
-        except Exception as e:
-            app_logger.error(f"Error executing query: {e}")
+            app_logger.error(f"Error reading {tableclass.__name__}: {e}")
             return []
 
+    def update(
+        self, tableclass: Type[Base], record: Dict[str, Any], updates: Dict[str, Any]
+    ) -> None:
+        # sourcery skip: use-named-expression
+        try:
+            target_record = self.db_session.query(tableclass).filter_by(**record).first()
 
-if __name__ == "__main__":
-    database = TorchtraderDatabase()
-    database.close_session()
+            if target_record is None:
+                app_logger.warning(f"Record not found in {tableclass.__name__}. Skipping.")
+                return
+
+            for key, value in updates.items():
+                # Check if the updated value is already present in the database
+                exists = (
+                    self.db_session.query(tableclass)
+                    .filter(
+                        and_(
+                            getattr(tableclass, key) == value,
+                            tableclass.id != target_record.id,
+                        )
+                    )
+                    .first()
+                )
+
+                if exists:
+                    app_logger.warning(
+                        f"{tableclass.__name__} with {key}={value} already exists. Skipping update."
+                    )
+                    continue
+
+                setattr(target_record, key, value)
+
+            self.db_session.commit()
+            app_logger.info(f"Updated {tableclass.__name__} with record {record}")
+        except (IntegrityError, FlushError) as e:
+            app_logger.error(f"Error updating {tableclass.__name__} with " f"record {record}: {e}")
+            self.db_session.rollback()
+        except Exception as e:
+            app_logger.error(
+                f"Unexpected error updating {tableclass.__name__} with " f"record {record}: {e}"
+            )
+            self.db_session.rollback()
+
+    def delete(self, tableclass: Type[Base], data: Dict[str, Any]) -> None:
+        try:
+            target_record = self.db_session.query(tableclass).filter_by(**data).first()
+
+            if not target_record:
+                app_logger.warning(f"Item {data} doesn't exist in {tableclass.__name__}. Skipping.")
+                return
+
+            self.db_session.delete(target_record)
+            self.db_session.commit()
+            app_logger.info(f"Deleted {tableclass.__name__} with {data}")
+        except Exception as e:
+            app_logger.error(f"Error deleting {tableclass.__name__} with " f"record {data}: {e}")
+            self.db_session.rollback()
+
+    def close(self):
+        self.db_session.close()
+        app_logger.info("Database session closed.")
